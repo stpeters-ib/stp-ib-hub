@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>St Peter's IB Diploma Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a school handbook with a scarlet spine. Sticky section nav on top, one section visible at a time (hash routed), tools sit in bordered "workbench" panels. */
+:root{
+  --scarlet:#CF082A; --scarlet-soft:#F7DCE0; --navy:#001732; --ink:#14192A; --muted:#5B5F6B;
+  --paper:#EEE8E3; --card:#FBF9F6; --line:#DCD3CA; --gold:#6E97B3;
+  --c-cre:#7A3FA0; --c-act:#1F7A55; --c-ser:#C0561B;
+  --ok:#1F7A55; --warn:#9A6200; --bad:#B3261E;
+  --display:"Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --r:10px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --scarlet:#FF5A6E; --scarlet-soft:#3B1426; --navy:#C9D6EA; --ink:#F1ECE6; --muted:#A9B3C4;
+    --paper:#001732; --card:#0A2445; --line:#24406A; --gold:#8FB8D3;
+    --c-cre:#C29BE3; --c-act:#5CC79A; --c-ser:#F08C53; --ok:#5CC79A; --warn:#E3A93A; --bad:#F2766B;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --scarlet:#FF5A6E; --scarlet-soft:#3B1426; --navy:#C9D6EA; --ink:#F1ECE6; --muted:#A9B3C4;
+    --paper:#001732; --card:#0A2445; --line:#24406A; --gold:#8FB8D3;
+    --c-cre:#C29BE3; --c-act:#5CC79A; --c-ser:#F08C53; --ok:#5CC79A; --warn:#E3A93A; --bad:#F2766B;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+a{color:var(--scarlet)}
+h1,h2,h3,h4{font-family:var(--display);font-weight:650;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,4.5vw,3rem)}
+h2{font-size:clamp(1.6rem,3vw,2.1rem)}
+h3{font-size:1.3rem}
+h4{font-size:1.08rem}
+p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.prose{max-width:68ch}
+.stack{display:flex;flex-direction:column;gap:14px}
+.stack-lg{display:flex;flex-direction:column;gap:32px}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* Header */
+.masthead{background:#EEE8E3;color:#CF082A;border-bottom:4px solid #CF082A}
+.masthead .wrap{display:flex;align-items:center;gap:16px;padding-top:16px;padding-bottom:14px;flex-wrap:wrap}
+.crest{width:58px;height:60px;flex:none}
+.crest img{width:100%;height:100%;object-fit:contain;display:block}
+.wordmark{display:flex;flex-direction:column;line-height:1}
+.wordmark .wm{font-family:var(--display);font-weight:700;font-size:2rem;color:#CF082A;letter-spacing:-.01em}
+.wordmark .loc{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.32em;color:#CF082A;margin-top:4px}
+.masthead .spacer{flex:1}
+.hubname{text-align:right;color:#001732}
+.hubname .h1{font-family:var(--display);font-weight:700;font-size:1.15rem}
+.hubname .h2{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#5B5F6B}
+nav.tabs{position:sticky;top:0;z-index:20;background:#001732;border-bottom:1px solid #001732}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin}
+nav.tabs a{flex:none;padding:13px 14px;color:#EEE8E3;text-decoration:none;font-weight:600;border-bottom:3px solid transparent;font-size:.97rem}
+nav.tabs a[aria-current="page"]{border-color:#CF082A;color:#fff}
+nav.tabs a:hover{color:#fff;border-color:#8FB8D3}
+
+main{padding:36px 0 64px}
+section.view{display:none}
+section.view.active{display:block}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--scarlet)}
+.lead{font-size:1.15rem;color:var(--muted);max-width:62ch}
+
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.card.link{text-decoration:none;color:inherit;transition:border-color .15s}
+.card.link:hover{border-color:var(--scarlet)}
+.card .k{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.bench{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--scarlet);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:16px}
+.bench h3{display:flex;gap:10px;align-items:center}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--scarlet-soft);color:var(--scarlet);letter-spacing:.02em}
+.tag.cre{background:color-mix(in srgb,var(--c-cre) 15%,transparent);color:var(--c-cre)}
+.tag.act{background:color-mix(in srgb,var(--c-act) 15%,transparent);color:var(--c-act)}
+.tag.ser{background:color-mix(in srgb,var(--c-ser) 15%,transparent);color:var(--c-ser)}
+.tag.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.tag.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.tag.bad{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad)}
+.note{border-left:4px solid var(--gold);background:color-mix(in srgb,var(--gold) 9%,var(--card));padding:12px 16px;border-radius:0 8px 8px 0}
+ul.clean{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font-weight:700;background:color-mix(in srgb,var(--navy) 6%,var(--card))}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Sub tabs */
+.subtabs{display:flex;flex-wrap:wrap;gap:6px}
+.subtabs button{font:inherit;font-weight:600;font-size:.93rem;padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.subtabs button[aria-selected="true"]{background:var(--scarlet);border-color:var(--scarlet);color:#fff}
+.pane{display:none}.pane.active{display:flex;flex-direction:column;gap:16px}
+
+/* Forms */
+label{font-weight:600;font-size:.92rem}
+input[type=text],input[type=time],input[type=number],select,textarea{font:inherit;font-size:.95rem;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);width:100%}
+textarea{min-height:90px;resize:vertical}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>.field{flex:1 1 140px}
+.btn{font:inherit;font-weight:700;font-size:.93rem;padding:9px 16px;border-radius:8px;border:1px solid var(--scarlet);background:var(--scarlet);color:#fff;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--scarlet)}
+.btn.small{padding:5px 10px;font-size:.85rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.check{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line)}
+.check input{margin-top:5px;width:18px;height:18px;accent-color:var(--scarlet);flex:none}
+.check.done span{color:var(--muted);text-decoration:line-through}
+.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress>i{display:block;height:100%;background:var(--scarlet);width:0;transition:width .3s}
+
+/* Compare (weak vs strong) */
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.ex{border-radius:var(--r);padding:16px 18px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;gap:8px}
+.ex.weak{border-left:5px solid var(--bad)}
+.ex.strong{border-left:5px solid var(--ok)}
+.ex blockquote{margin:0;font-style:italic}
+.ex mark{background:color-mix(in srgb,var(--gold) 30%,transparent);color:inherit;padding:0 2px;border-radius:3px}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column;gap:0;border-left:3px solid var(--scarlet);margin-left:8px}
+.tl{position:relative;padding:0 0 18px 22px}
+.tl::before{content:"";position:absolute;left:-9px;top:4px;width:15px;height:15px;border-radius:50%;background:var(--card);border:3px solid var(--scarlet)}
+.tl .when{font-size:.8rem;font-weight:700;color:var(--scarlet);text-transform:uppercase;letter-spacing:.06em}
+
+/* Flow diagram */
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.flow .step{flex:1 1 130px;background:color-mix(in srgb,var(--navy) 6%,var(--card));border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.92rem;position:relative}
+.flow .step b{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--scarlet)}
+.flowlabel{font-weight:700;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* Diploma wheel */
+.hexrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.grp{border-radius:8px;padding:12px;color:#fff;font-weight:600;font-size:.92rem;min-height:84px;display:flex;flex-direction:column;justify-content:space-between}
+.grp small{font-weight:400;opacity:.9}
+.core3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.core3>div{border:2px solid var(--scarlet);border-radius:8px;padding:12px;background:var(--card)}
+
+/* Planner */
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.steps button{font:inherit;font-size:.88rem;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--muted);padding:6px 12px;border-radius:99px;cursor:pointer}
+.steps button.on{border-color:var(--scarlet);color:#fff;background:var(--scarlet)}
+.steps button.done{color:var(--ok);border-color:var(--ok)}
+.itemlist{display:flex;flex-direction:column;gap:6px}
+.item{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--paper);flex-wrap:wrap}
+.item .what{font-weight:600}
+.chipset{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:.85rem;padding:5px 11px;border-radius:99px;border:1px dashed var(--muted);background:transparent;color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--scarlet);color:var(--scarlet)}
+.vague{font-size:.88rem;color:var(--warn);font-weight:600}
+.weekgrid{display:grid;grid-template-columns:56px repeat(7,minmax(92px,1fr));font-size:.74rem;min-width:760px}
+.weekgrid .h{position:sticky;top:0;background:var(--card);font-weight:700;padding:6px 4px;text-align:center;border-bottom:2px solid var(--line);font-size:.82rem}
+.weekgrid .tm{color:var(--muted);padding:0 6px;text-align:right;border-top:1px solid var(--line);height:22px;line-height:22px;font-variant-numeric:tabular-nums}
+.weekgrid .cell{border-top:1px solid var(--line);border-left:1px solid var(--line);height:22px;padding:0 4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;line-height:22px}
+.cell.school{background:color-mix(in srgb,var(--navy) 14%,var(--card));color:var(--muted)}
+.cell.commit{background:color-mix(in srgb,var(--c-act) 22%,var(--card))}
+.cell.well{background:color-mix(in srgb,var(--gold) 26%,var(--card))}
+.cell.todo{background:color-mix(in srgb,var(--scarlet) 26%,var(--card));font-weight:600}
+.cell.study{background:color-mix(in srgb,var(--c-cre) 22%,var(--card));font-weight:600}
+.cell.brk{background:repeating-linear-gradient(45deg,transparent 0 4px,color-mix(in srgb,var(--line) 70%,transparent) 4px 6px)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.85rem}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+.daycards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.daycard{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--card)}
+.daycard h4{margin-bottom:6px}
+.daycard li{font-size:.92rem}
+.stat{display:flex;flex-direction:column}
+.stat b{font-family:var(--display);font-size:1.7rem;font-variant-numeric:tabular-nums}
+
+footer{border-top:1px solid var(--line);padding:24px 0;font-size:.88rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media (max-width:620px){.hubname{text-align:left}.wordmark .wm{font-size:1.6rem}.bench{padding:16px}}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <div class="crest"><img src="data:image/png;base64,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" alt="St. Peter's School crest"></div>
+    <div class="wordmark"><span class="wm">St. Peter&#8217;s</span><span class="loc">CAMBRIDGE&nbsp;&nbsp;N.&nbsp;Z.</span></div>
+    <div class="spacer"></div>
+    <div class="hubname"><div class="h1">IB Diploma Hub</div><div class="h2">Diploma Programme · Years 12–13</div></div>
+  </div>
+</header>
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap">
+    <a href="#home">Start here</a>
+    <a href="#diploma">The Diploma</a>
+    <a href="#cas">CAS</a>
+    <a href="#ee">Extended Essay</a>
+    <a href="#tok">TOK</a>
+    <a href="#planner">Weekly planner</a>
+  </div>
+</nav>
+<main>
+<div class="wrap">
+
+<!-- ============ HOME ============ -->
+<section class="view" id="v-home">
+ <div class="stack-lg">
+  <div class="stack">
+   <div class="eyebrow">Year 12 &amp; Year 13 · IB Diploma students</div>
+   <h1>Your IB Diploma, one step at a time</h1>
+   <p class="lead">Everything you need for the Diploma core in one place: what the Diploma asks of you, how to log and reflect on CAS, how the Extended Essay is marked, how TOK works, and a planner that turns a busy week into a realistic study plan.</p>
+  </div>
+  <div class="grid g3">
+   <a class="card link" href="#diploma"><span class="k">Understand it</span><h3>The Diploma</h3><p class="muted">What IB is, how the six groups and the core fit together, and a calculator that checks your grades against the passing conditions.</p></a>
+   <a class="card link" href="#cas"><span class="k">Live it</span><h3>CAS</h3><p class="muted">The seven learning outcomes, a reflection builder, strong and weak reflections side by side, and activity ideas from around the Waikato.</p></a>
+   <a class="card link" href="#ee"><span class="k">Research it</span><h3>Extended Essay</h3><p class="muted">An interactive guide to criteria A–E, subject-specific advice, questions to ask your supervisor and a checklist from first idea to viva voce.</p></a>
+   <a class="card link" href="#tok"><span class="k">Question it</span><h3>Theory of Knowledge</h3><p class="muted">How knowledge is produced and shared in each area of knowledge, exhibition objects matched to prompts, and step-by-step plans for both assessments.</p></a>
+   <a class="card link" href="#planner"><span class="k">Plan it</span><h3>Weekly planner</h3><p class="muted">Add your timetable, trainings, games and family time, then your specific tasks. It builds a week plan in half-hour blocks up to 10 pm.</p></a>
+   <div class="card"><span class="k">Who to ask</span><h3>Your people</h3><p class="muted">Subject teachers for IAs, your EE supervisor for the essay, your TOK teacher for the exhibition and essay, and the CAS coordinator for your portfolio. The DP coordinator handles deadlines, registrations and anything about results.</p></div>
+  </div>
+  <div class="bench">
+   <h3>The two-year journey at a glance</h3>
+   <p class="muted small">St Peter's students sit the IB's November examination session at the end of Year 13. Your teachers set the internal deadlines, so use this as the shape of the journey, then add your actual dates to the planner.</p>
+   <div class="grid g2">
+    <div class="timeline">
+     <div class="tl"><div class="when">Year 12 · Terms 1–2</div><p>Settle into six subjects. Start CAS experiences and your CAS portfolio. TOK classes begin with the core theme, Knowledge and the Knower.</p></div>
+     <div class="tl"><div class="when">Year 12 · Term 2–3</div><p>Choose your EE subject and supervisor. First EE reflection session. Start planning a CAS project. First CAS interview.</p></div>
+     <div class="tl"><div class="when">Year 12 · Terms 3–4</div><p><b>TOK exhibition.</b> EE research and a full plan. Second EE reflection session. Internal assessments start appearing in subjects.</p></div>
+    </div>
+    <div class="timeline">
+     <div class="tl"><div class="when">Year 13 · Term 1</div><p><b>EE full draft due mid-term. Final EE due at the end of Term 1</b>, followed by the viva voce (third reflection session). IA deadlines start to cluster, so plan early.</p></div>
+     <div class="tl"><div class="when">Year 13 · Terms 2–3</div><p><b>TOK essay</b> on a prescribed title. Finish remaining IAs, CAS evidence and the final CAS interview. Mock exams. Revision becomes a daily habit.</p></div>
+     <div class="tl"><div class="when">Year 13 · Term 4</div><p>November examination session. Results arrive around 17 December.</p></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ DIPLOMA ============ -->
+<section class="view" id="v-diploma">
+ <div class="stack-lg">
+  <div class="stack">
+   <div class="eyebrow">The Diploma</div>
+   <h1>What the IB Diploma is</h1>
+   <p class="lead">The International Baccalaureate (IB) is a non-profit foundation set up in Geneva in 1968. Its Diploma Programme (DP) is a two-year course for 16–19 year olds, recognised by universities around the world.</p>
+  </div>
+
+  <div class="grid g2">
+   <div class="card">
+    <h3>The idea behind it</h3>
+    <p>The DP aims for breadth and depth: you keep studying languages, a science, maths, the humanities and (often) the arts, while going deep in three or four subjects at Higher Level. The core asks you to think about knowledge itself (TOK), research independently (EE) and grow as a person outside the classroom (CAS).</p>
+   </div>
+   <div class="card">
+    <h3>The IB learner profile</h3>
+    <p class="muted small">Ten attributes the whole programme is built to develop. You will see them in CAS reflections, TOK discussions and your EE reflection.</p>
+    <div class="chipset">
+     <span class="tag">Inquirers</span><span class="tag">Knowledgeable</span><span class="tag">Thinkers</span><span class="tag">Communicators</span><span class="tag">Principled</span><span class="tag">Open-minded</span><span class="tag">Caring</span><span class="tag">Risk-takers</span><span class="tag">Balanced</span><span class="tag">Reflective</span>
+    </div>
+   </div>
+  </div>
+
+  <div class="bench">
+   <h3>How the Diploma is structured</h3>
+   <p>You take <b>one subject from each of groups 1–5</b>, plus either a group 6 arts subject or a second subject from groups 1–4. At least three (and up to four) are at <b>Higher Level</b> (about 240 teaching hours each); the rest are <b>Standard Level</b> (about 150 hours).</p>
+   <div class="hexrow">
+    <div class="grp" style="background:#8C2232">1 · Studies in language &amp; literature<small>e.g. English A</small></div>
+    <div class="grp" style="background:#B5562A">2 · Language acquisition<small>e.g. French B, Spanish ab initio</small></div>
+    <div class="grp" style="background:#8E6A1E">3 · Individuals &amp; societies<small>e.g. History, Economics</small></div>
+    <div class="grp" style="background:#2E6B4C">4 · Sciences<small>e.g. Biology, Chemistry, Physics</small></div>
+    <div class="grp" style="background:#2A4F7A">5 · Mathematics<small>Analysis &amp; approaches, or Applications &amp; interpretation</small></div>
+    <div class="grp" style="background:#5B3A7E">6 · The arts<small>e.g. Visual Arts, Music (or a second 1–4 subject)</small></div>
+   </div>
+   <div class="flowlabel">The core, studied by everyone</div>
+   <div class="core3">
+    <div><h4>Theory of Knowledge</h4><p class="small muted">About 100 hours. Assessed by an exhibition (internal) and a 1,600-word essay (external).</p></div>
+    <div><h4>Extended Essay</h4><p class="small muted">An independent 4,000-word research essay, around 40 hours of work, with three supervisor reflection sessions.</p></div>
+    <div><h4>Creativity, Activity, Service</h4><p class="small muted">About 18 months of experiences and at least one CAS project, evidenced in a portfolio. Not graded, but required.</p></div>
+   </div>
+  </div>
+
+  <div class="grid g2">
+   <div class="stack">
+    <h2>How points work</h2>
+    <p>Each of your six subjects is graded <b>1 to 7</b>, so subjects give up to 42 points. TOK and the EE are each graded <b>A to E</b>, and together they earn up to <b>3 core points</b> from the matrix below. The maximum is <b>45</b>.</p>
+    <div class="tablebox"><table class="num" aria-label="Core points matrix">
+     <thead><tr><th>EE ↓ / TOK →</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+     <tbody>
+      <tr><th>A</th><td>3</td><td>3</td><td>2</td><td>2</td><td rowspan="5" style="vertical-align:middle"><span class="tag bad">Fail</span></td></tr>
+      <tr><th>B</th><td>3</td><td>2</td><td>2</td><td>1</td></tr>
+      <tr><th>C</th><td>2</td><td>2</td><td>1</td><td>0</td></tr>
+      <tr><th>D</th><td>2</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><th>E</th><td colspan="4"><span class="tag bad">Fail</span> An E in either TOK or the EE means no Diploma</td></tr>
+     </tbody>
+    </table></div>
+   </div>
+   <div class="stack">
+    <h2>To be awarded the Diploma</h2>
+    <p class="muted small">From the IB's published passing criteria. All must be true.</p>
+    <ul class="clean">
+     <li>CAS requirements are met.</li>
+     <li>At least <b>24 points</b> in total.</li>
+     <li>A grade in every subject, TOK and the EE (no missing work).</li>
+     <li>No subject below a <b>2</b>.</li>
+     <li>No more than <b>two grade 2s</b>.</li>
+     <li>No more than <b>three grades of 3 or below</b>.</li>
+     <li>At least <b>12 points from HL</b> subjects (if you take four HL, your best three count).</li>
+     <li>At least <b>9 points from SL</b> subjects (5 points if you take only two SL subjects).</li>
+     <li>No E in TOK or the EE, and no academic misconduct finding.</li>
+    </ul>
+   </div>
+  </div>
+
+  <div class="bench" id="calc">
+   <h3>Diploma checker</h3>
+   <p class="muted small">Enter predicted or practice grades to see your total and whether any passing condition is at risk. Nothing you type leaves this browser.</p>
+   <div class="grid g3" id="calcSubjects"></div>
+   <div class="row">
+    <div class="field"><label for="calcTok">TOK grade</label><select id="calcTok"><option>A</option><option selected>B</option><option>C</option><option>D</option><option>E</option></select></div>
+    <div class="field"><label for="calcEe">EE grade</label><select id="calcEe"><option>A</option><option>B</option><option selected>C</option><option>D</option><option>E</option></select></div>
+    <div class="field"><label for="calcCas">CAS</label><select id="calcCas"><option value="1" selected>On track / met</option><option value="0">Not met</option></select></div>
+   </div>
+   <div id="calcOut" class="stack"></div>
+  </div>
+  <p class="small muted">Source: IB, <a href="https://ibo.org/about-the-ib/what-it-means-to-be-an-ib-student/recognizing-student-achievement/about-assessment/dp-passing-criteria/">DP passing criteria</a>. If anything here disagrees with what the DP coordinator tells you, the coordinator is right.</p>
+ </div>
+</section>
+
+<!-- ============ CAS ============ -->
+<section class="view" id="v-cas">
+ <div class="stack-lg">
+  <div class="stack">
+   <div class="eyebrow">Creativity · Activity · Service</div>
+   <h1>CAS: learning that happens outside the classroom</h1>
+   <p class="lead">CAS runs for at least 18 months. You don't count hours; you show growth. Your portfolio holds the evidence and reflections that show you have met all seven learning outcomes.</p>
+  </div>
+
+  <div class="grid g3">
+   <div class="card"><span class="tag cre">Creativity</span><p>Exploring and extending ideas that lead to an original or interpretive product or performance.</p><p class="small muted">Learning an instrument, designing a set for the school production, starting a podcast, carving, photography, choreographing a haka performance.</p></div>
+   <div class="card"><span class="tag act">Activity</span><p>Physical exertion that contributes to a healthy lifestyle.</p><p class="small muted">Rowing at Lake Karāpiro, a new sport, training for a half marathon, coaching junior netball, tramping in the Kaimai Range.</p></div>
+   <div class="card"><span class="tag ser">Service</span><p>Collaborative, reciprocal engagement with the community in response to an authentic need.</p><p class="small muted">Riparian planting on the Waikato River, tutoring juniors, volunteering at a food bank, helping at a retirement village.</p></div>
+  </div>
+
+  <div class="grid g2">
+   <div class="card">
+    <h3>What you must do</h3>
+    <ul class="clean">
+     <li>Take part in a balance of creativity, activity and service experiences across at least <b>18 months</b>.</li>
+     <li>Complete at least one <b>CAS project</b>: collaborative, lasting at least a month, and challenging you to show initiative.</li>
+     <li>Keep a <b>CAS portfolio</b> with evidence and reflections.</li>
+     <li>Show evidence for all <b>seven learning outcomes</b>.</li>
+     <li>Attend <b>three interviews</b> with your CAS coordinator or adviser (normally start, middle and end).</li>
+    </ul>
+   </div>
+   <div class="card">
+    <h3>The five CAS stages</h3>
+    <div class="flow">
+     <div class="step"><b>1</b>Investigation: what are your interests, skills and a real need?</div>
+     <div class="step"><b>2</b>Preparation: plan roles, timeline and resources.</div>
+     <div class="step"><b>3</b>Action: do it, adapt as you go.</div>
+     <div class="step"><b>4</b>Reflection: think about what happened and what it means.</div>
+     <div class="step"><b>5</b>Demonstration: show what you did and learned.</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="stack">
+   <h2>The seven learning outcomes</h2>
+   <p class="muted small">Click an outcome to see what evidence looks like and a sentence starter for your reflection.</p>
+   <div class="subtabs" role="tablist" id="loTabs"></div>
+   <div class="card" id="loPanel" aria-live="polite"></div>
+  </div>
+
+  <div class="bench">
+   <h3>Reflection builder</h3>
+   <p class="muted small">Work through the four prompts. The builder checks for the parts a strong reflection usually has, then gives you a draft to paste into your portfolio. It saves in this browser only.</p>
+   <div class="row">
+    <div class="field"><label for="rbExp">CAS experience</label><input type="text" id="rbExp" value="Waikato River riparian planting day"></div>
+    <div class="field"><label for="rbStrand">Strand</label><select id="rbStrand"><option>Creativity</option><option>Activity</option><option selected>Service</option><option>CAS project</option></select></div>
+    <div class="field"><label for="rbLO">Main learning outcome</label><select id="rbLO"></select></div>
+   </div>
+   <div class="grid g2">
+    <div class="field"><label for="rbWhat">1 · What happened? (describe briefly)</label><textarea id="rbWhat">Our group planted 200 harakeke and kānuka seedlings along a stream bank near Cambridge with a local catchment group.</textarea></div>
+    <div class="field"><label for="rbFeel">2 · How did you feel, and why?</label><textarea id="rbFeel">I felt frustrated at first because the clay was so hard to dig, but proud by the end when we could see the full row.</textarea></div>
+    <div class="field"><label for="rbLearn">3 · What did you learn or realise? Link it to the outcome.</label><textarea id="rbLearn">The coordinator explained that planting slows run-off and keeps sediment out of the river. I realised that service isn't just turning up; it means understanding the need first.</textarea></div>
+    <div class="field"><label for="rbNext">4 · What will you do next, or differently?</label><textarea id="rbNext">Next time I want to read the catchment group's water quality data before we go, and ask if our class can help with the monitoring in autumn.</textarea></div>
+   </div>
+   <div id="rbChecks" class="chipset"></div>
+   <div class="field"><label for="rbOut">Your draft reflection</label><textarea id="rbOut" readonly style="min-height:150px"></textarea></div>
+   <div class="row"><button class="btn" id="rbCopy">Copy draft</button><button class="btn ghost" id="rbClear">Clear and start a new one</button><span class="small muted" id="rbMsg"></span></div>
+  </div>
+
+  <div class="stack">
+   <h2>What a strong reflection looks like</h2>
+   <p class="muted small">These examples were written for this site to show the difference. They are not real student work.</p>
+   <div class="compare">
+    <div class="ex weak">
+     <span class="tag bad">Thin</span>
+     <blockquote>Today I went to rowing training. It was really hard and cold but fun. We did 3 x 2 km pieces. I think I am getting better. I am looking forward to the regatta.</blockquote>
+     <p class="small muted">It describes the session but there's no learning, no "why", no link to an outcome, and no next step. It reads like a diary entry.</p>
+    </div>
+    <div class="ex strong">
+     <span class="tag ok">Strong · LO4 Commitment and perseverance</span>
+     <blockquote>Our 5 am session at Karāpiro was 3 × 2 km pieces in 4°C. On the second piece my split drifted out by four seconds and I wanted to stop. <mark>I noticed that I give up mentally before I give up physically</mark>, so on the third piece I focused on counting ten strokes at a time. My split held. <mark>This is the first time I've stuck at something when it was boring and hard, not just when it was going well</mark>, which is what commitment means to me now. <mark>Before the regatta I'll ask our coach to film my catch</mark> so I have something concrete to work on during the dark winter sessions.</blockquote>
+     <p class="small muted">Specific detail, an honest insight, a clear link to an outcome in the student's own words, and a next step.</p>
+    </div>
+   </div>
+   <div class="compare">
+    <div class="ex weak">
+     <span class="tag bad">Thin</span>
+     <blockquote>I helped at the food bank. I learned that lots of people need help and it made me feel grateful for what I have. It was a good experience and showed global engagement.</blockquote>
+     <p class="small muted">Names an outcome but doesn't show it. "Lots of people need help" is general, not something this student found out.</p>
+    </div>
+    <div class="ex strong">
+     <span class="tag ok">Strong · LO6 Global engagement, LO7 Ethics</span>
+     <blockquote>Sorting donations, I saw that we had 40 tins of beans but almost no nappies or sanitary products. The manager said those are what families ask for most. <mark>I'd assumed food was the whole problem.</mark> Food insecurity is part of a wider pattern of cost-of-living pressure, which is happening here and around the world. <mark>I'm uncomfortable that I'd been "helping" based on what was easy to give</mark>. For our house drive next term I want to ask the food bank for a needs list first and share it with the year group.</blockquote>
+     <p class="small muted">Starts from a real observation, connects a local need to a global issue, and questions the student's own assumptions.</p>
+    </div>
+   </div>
+   <div class="note small"><b>Quick test before you post a reflection:</b> could someone tell from this what you <i>learned</i>, not just what you <i>did</i>? Is there one sentence only you could have written? Have you said what's next?</div>
+  </div>
+
+  <div class="stack">
+   <h2>CAS ideas to get you started</h2>
+   <div class="subtabs" role="tablist" id="ideaTabs">
+    <button role="tab" aria-selected="true" data-f="all">All</button>
+    <button role="tab" aria-selected="false" data-f="cre">Creativity</button>
+    <button role="tab" aria-selected="false" data-f="act">Activity</button>
+    <button role="tab" aria-selected="false" data-f="ser">Service</button>
+    <button role="tab" aria-selected="false" data-f="proj">Project ideas</button>
+   </div>
+   <div class="grid g3" id="ideaGrid"></div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ EE ============ -->
+<section class="view" id="v-ee">
+ <div class="stack-lg">
+  <div class="stack">
+   <div class="eyebrow">Extended Essay</div>
+   <h1>The Extended Essay</h1>
+   <p class="lead">A 4,000-word independent research essay on a question you choose, supervised by a teacher. It is your chance to go deep on something you care about, and universities often ask about it.</p>
+  </div>
+
+  <div class="note"><b>Which criteria apply to you?</b> The IB introduced a new EE model with a new guide in 2025. It applies to every student sitting exams from the <b>May 2027</b> session onwards, which includes St Peter's students sitting in <b>November 2027</b> and later. The old model (criteria A–E out of 34) ended with the November 2026 session. Everything on this page is the new model.</div>
+
+  <div class="grid g4">
+   <div class="card"><span class="k">Length</span><h3 class="num">4,000 words</h3><p class="small muted">Maximum. Contents page, tables, figures, citations, bibliography and the RPF aren't counted.</p></div>
+   <div class="card"><span class="k">Time</span><h3>About 40 hours</h3><p class="small muted">Spread over roughly a year. Start early, finish calmly.</p></div>
+   <div class="card"><span class="k">Pathways</span><h3>Subject-focused or interdisciplinary</h3><p class="small muted">Interdisciplinary essays replace the old World Studies EE.</p></div>
+   <div class="card"><span class="k">Reflection</span><h3>3 sessions + RPF</h3><p class="small muted">Three formal sessions with your supervisor, the last being the viva voce, then a 500-word statement on the Reflection and Progress Form.</p></div>
+  </div>
+
+  <div class="bench">
+   <h3>Criteria explorer</h3>
+   <p class="muted small">Pick a criterion to see what examiners look for, what each mark band looks like, an example of weak and strong writing, and questions to take to your supervisor. Then rate your draft to get a rough mark profile. The descriptions are a student-friendly summary; the official wording is in the EE guide.</p>
+   <div class="subtabs" role="tablist" id="critTabs"></div>
+   <div id="critPanel" class="stack" aria-live="polite"></div>
+   <hr style="border:0;border-top:1px solid var(--line);width:100%">
+   <h4>Rate your draft</h4>
+   <div class="grid g3" id="critSliders"></div>
+   <div class="row" style="align-items:center">
+    <div class="stat"><span class="small muted">Rough total</span><b id="critTotal">0 / 30</b></div>
+    <div style="flex:1;min-width:200px"><div class="progress"><i id="critBar"></i></div></div>
+   </div>
+   <p class="small muted">Grade boundaries (A–E) change every session, so this tool gives a mark profile only. Your weakest criterion is usually the best place to spend your next hour.</p>
+  </div>
+
+  <div class="stack">
+   <h2>Subject-specific advice</h2>
+   <p class="muted small">Every subject also has its own EE guidance in the official guide. These notes cover the most common subjects at St Peter's; check the full guide for yours.</p>
+   <div class="subtabs" role="tablist" id="subjTabs"></div>
+   <div class="card" id="subjPanel"></div>
+  </div>
+
+  <div class="grid g2">
+   <div class="bench">
+    <h3>EE process checklist</h3>
+    <div class="row" style="align-items:center"><div style="flex:1"><div class="progress"><i id="eeBar"></i></div></div><span class="small muted num" id="eePct">0%</span></div>
+    <div id="eeChecklist"></div>
+    <p class="small muted">Ticks save in this browser. Your supervisor will set the actual dates.</p>
+   </div>
+   <div class="stack">
+    <div class="card">
+     <h3>Questions you might ask</h3>
+     <details><summary><b>Is my research question too broad?</b></summary><p class="small">If you could write a book on it, yes. A good question names a specific case, text, period, place or variable. "How did the 1981 Springbok tour change New Zealand?" is too broad. "To what extent did coverage in the <i>Waikato Times</i> shape local opinion about the Hamilton match of the 1981 Springbok tour?" can be answered in 4,000 words.</p></details>
+     <details><summary><b>Can I use a topic from my IA?</b></summary><p class="small">You can't submit the same work twice. The EE must be a different investigation, and you should check overlap with your supervisor early.</p></details>
+     <details><summary><b>How much help can my supervisor give?</b></summary><p class="small">They can discuss ideas, suggest sources, ask questions and read and comment on one complete draft. They cannot edit or rewrite it for you.</p></details>
+     <details><summary><b>Do I need primary research?</b></summary><p class="small">It depends on the subject. Sciences usually need data (from experiments or databases), history needs primary sources, English needs close reading of texts. Ask what counts as good evidence in your subject.</p></details>
+     <details><summary><b>What happens in the viva voce?</b></summary><p class="small">A 20–30 minute conversation with your supervisor after you submit. It checks the work is yours and helps you reflect on what you learned. It is not an exam on your argument.</p></details>
+     <details><summary><b>Can I use AI tools?</b></summary><p class="small">Follow the IB's academic integrity policy and the school's rules. Any AI-generated material you use must be credited and cited like any other source, and your argument and writing must be your own. If in doubt, ask before you use it.</p></details>
+    </div>
+    <div class="card">
+     <h3>The official documents</h3>
+     <ul class="clean small">
+      <li><b>The full EE guide</b> (criteria, subject guidance, academic integrity) is on the IB Programme Resource Centre. Ask the DP coordinator or the library for the copy St Peter's students use.</li>
+      <li><a href="https://www.ibo.org/globalassets/new-structure/university-admission/pdfs/ee_subjectbrief_en.pdf">IB Extended Essay subject brief</a> (public summary)</li>
+      <li><a href="https://ibo.org/globalassets/new-structure/university-admission/pdfs/subject-guides-documents/sample-assessed-student-work--extended-essay.pdf">IB sample assessed student work: Extended Essay</a> (real marked essays with examiner comments; some were marked under the older criteria)</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ TOK ============ -->
+<section class="view" id="v-tok">
+ <div class="stack-lg">
+  <div class="stack">
+   <div class="eyebrow">Theory of Knowledge</div>
+   <h1>How do we know what we claim to know?</h1>
+   <p class="lead">TOK is about knowing, not facts. You look at how knowledge is built, tested, shared and challenged in different areas, and what that means for you as a knower.</p>
+  </div>
+
+  <div class="grid g2">
+   <div class="card">
+    <h3>How the course is organised</h3>
+    <p><b>Core theme:</b> Knowledge and the Knower.</p>
+    <p><b>Optional themes</b> (you study two): Knowledge and Technology, Knowledge and Language, Knowledge and Politics, Knowledge and Religion, Knowledge and Indigenous Societies.</p>
+    <p><b>Areas of knowledge (AOKs):</b> History, the Human Sciences, the Natural Sciences, Mathematics, the Arts.</p>
+   </div>
+   <div class="card">
+    <h3>The knowledge framework</h3>
+    <p class="small muted">Four lenses you can apply to any theme or AOK. Use them to generate knowledge questions.</p>
+    <div class="flow">
+     <div class="step"><b>Scope</b>What is this area about? What problems does it try to solve?</div>
+     <div class="step"><b>Perspectives</b>Who produces this knowledge? Whose views count?</div>
+     <div class="step"><b>Methods &amp; tools</b>How is knowledge produced and checked here?</div>
+     <div class="step"><b>Ethics</b>What responsibilities come with knowing this?</div>
+    </div>
+   </div>
+  </div>
+
+  <div class="grid g2">
+   <div class="card"><span class="k">Internal · one third of TOK</span><h3>The exhibition</h3><p>Three objects linked to one of the IB's 35 "IA prompts", with a commentary of up to <b>950 words</b>. Based on the core theme or one optional theme. Marked out of 10 by your teacher and moderated by the IB.</p></div>
+   <div class="card"><span class="k">External · two thirds of TOK</span><h3>The essay</h3><p>A <b>1,600-word</b> essay on one of six prescribed titles released by the IB for your exam session. Marked out of 10 by an IB examiner.</p></div>
+  </div>
+
+  <div class="stack">
+   <h2>Areas of knowledge</h2>
+   <p class="muted small">For each AOK: how knowledge gets made, how it gets shared and tested, and real examples to think with.</p>
+   <div class="subtabs" role="tablist" id="aokTabs"></div>
+   <div class="bench" id="aokPanel" aria-live="polite"></div>
+  </div>
+
+  <div class="stack">
+   <h2>The exhibition</h2>
+   <div class="subtabs" role="tablist" id="exTabs">
+    <button role="tab" aria-selected="true" data-p="ex-objects">Objects &amp; prompts</button>
+    <button role="tab" aria-selected="false" data-p="ex-criteria">What earns marks</button>
+    <button role="tab" aria-selected="false" data-p="ex-steps">Step-by-step checklist</button>
+   </div>
+   <div class="pane active" id="ex-objects">
+    <p class="muted small">Example prompts with object ideas, many from Aotearoa. A strong object is specific (this one, made by this person, on this date), linked to you or your world, and lets you say something about knowledge. Your teacher has the full list of 35 prompts.</p>
+    <div class="row"><div class="field" style="max-width:340px"><label for="objTheme">Filter by theme</label><select id="objTheme"><option value="all">All themes</option><option>Knowledge and the Knower</option><option>Knowledge and Technology</option><option>Knowledge and Language</option><option>Knowledge and Politics</option><option>Knowledge and Religion</option><option>Knowledge and Indigenous Societies</option></select></div></div>
+    <div class="grid g2" id="objGrid"></div>
+   </div>
+   <div class="pane" id="ex-criteria">
+    <div class="card">
+     <h3>What examiners are looking for</h3>
+     <p>One holistic question: <b>can the exhibition show how TOK manifests in the world around us?</b> High-scoring exhibitions:</p>
+     <ul class="clean">
+      <li>Identify <b>three specific, real objects</b> and explain the real-world context of each.</li>
+      <li>Make <b>clear, explicit links</b> between each object and the chosen prompt, every time.</li>
+      <li>Give <b>reasons</b> for including each object, supported by evidence and specific references to the prompt.</li>
+      <li>Avoid repetition: each object adds something new to the argument.</li>
+     </ul>
+    </div>
+    <div class="compare">
+     <div class="ex weak"><span class="tag bad">Weak</span><p class="small muted">Prompt: <i>What counts as good evidence for a claim?</i></p><blockquote>My object is a photo of a newspaper. Newspapers are sources of evidence. Some newspapers are biased and some are not, so evidence can be good or bad. This links to the prompt because it is about evidence.</blockquote><p class="small muted">Generic object (which paper? when?), restates the prompt, no argument.</p></div>
+     <div class="ex strong"><span class="tag ok">Strong</span><p class="small muted">Same prompt, written for this site</p><blockquote>My second object is the <i>Waikato Times</i> front page reporting the cancelled Springbok match at Rugby Park, Hamilton, in July 1981. <mark>Two readers in my own family remember that day completely differently</mark>, yet both point to this page as proof. This suggests <mark>a source becomes "good evidence" only once someone decides what question it answers</mark>. Unlike my first object, a lab notebook, the evidence here cannot be repeated, so its weight depends on corroboration, not replication.</blockquote><p class="small muted">Specific object, personal context, explicit link to the prompt, and it builds on object 1.</p></div>
+    </div>
+   </div>
+   <div class="pane" id="ex-steps">
+    <div class="bench">
+     <div class="row" style="align-items:center"><div style="flex:1"><div class="progress"><i id="exBar"></i></div></div><span class="small muted num" id="exPct">0%</span></div>
+     <div id="exChecklist"></div>
+    </div>
+   </div>
+  </div>
+
+  <div class="stack">
+   <h2>The essay</h2>
+   <div class="subtabs" role="tablist" id="esTabs">
+    <button role="tab" aria-selected="true" data-p="es-shape">Shape of a strong essay</button>
+    <button role="tab" aria-selected="false" data-p="es-criteria">What earns marks</button>
+    <button role="tab" aria-selected="false" data-p="es-steps">Step-by-step checklist</button>
+   </div>
+   <div class="pane active" id="es-shape">
+    <div class="flow">
+     <div class="step"><b>Unpack</b>Define the key terms in the title and say what you take the question to be asking.</div>
+     <div class="step"><b>Claim</b>A point in response to the title, from one AOK, with a specific real example.</div>
+     <div class="step"><b>Counterclaim</b>A limitation or opposing view, with its own example.</div>
+     <div class="step"><b>Repeat</b>Do the same in a second AOK (most titles ask for two).</div>
+     <div class="step"><b>Evaluate</b>Weigh the claims. What are the implications? Where does it depend on perspective?</div>
+     <div class="step"><b>Conclude</b>A clear, qualified answer to the title.</div>
+    </div>
+    <div class="note small">Aim for about 1,550 words. Use specific examples from your subjects, CAS, the EE and your life in New Zealand rather than textbook clichés.</div>
+   </div>
+   <div class="pane" id="es-criteria">
+    <div class="card">
+     <h3>What examiners are looking for</h3>
+     <p>One holistic question: <b>does the student provide a clear, coherent and critical exploration of the essay title?</b> High-scoring essays:</p>
+     <ul class="clean">
+      <li>Stay focused on the title the whole way through, linking back to it explicitly.</li>
+      <li>Support claims with <b>specific, well-chosen examples</b>.</li>
+      <li>Consider <b>different points of view</b> and evaluate them, rather than listing them.</li>
+      <li>Explore the <b>implications</b> of the argument.</li>
+      <li>Are clearly organised and use TOK concepts accurately.</li>
+     </ul>
+    </div>
+    <div class="compare">
+     <div class="ex weak"><span class="tag bad">Weak</span><blockquote>In the natural sciences, knowledge is very reliable because scientists use the scientific method. For example, Newton discovered gravity. This shows that science gives us certain knowledge.</blockquote><p class="small muted">Overclaims ("certain"), cliché example with no detail, no counterclaim.</p></div>
+     <div class="ex strong"><span class="tag ok">Strong · written for this site</span><blockquote>Consensus in the natural sciences is built to be revised. When I tested the effect of temperature on catalase in Year 12 Biology, <mark>my class's results only became "knowledge" once we pooled them and the outlier groups found their errors</mark>. That suggests reliability comes from a community checking itself, not from any single experiment. <mark>Yet this same process can delay acceptance of correct ideas</mark>: Barry Marshall's claim that bacteria cause stomach ulcers was rejected for years until he drank a culture of the bacteria himself.</blockquote><p class="small muted">Personal and specific example, a claim and a counterclaim, and an evaluation of the method.</p></div>
+    </div>
+   </div>
+   <div class="pane" id="es-steps">
+    <div class="bench">
+     <div class="row" style="align-items:center"><div style="flex:1"><div class="progress"><i id="esBar"></i></div></div><span class="small muted num" id="esPct">0%</span></div>
+     <div id="esChecklist"></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ PLANNER ============ -->
+<section class="view" id="v-planner">
+ <div class="stack-lg">
+  <div class="stack">
+   <div class="eyebrow">Weekly planner</div>
+   <h1>Plan a week you can actually stick to</h1>
+   <p class="lead">Five quick steps. Add what's fixed, then what needs doing, and the planner fits your tasks into the free half-hours before school and after school up to 10 pm. It opens with an example week; clear it to start your own.</p>
+  </div>
+
+  <div class="bench">
+   <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="steps" id="plSteps"></div>
+    <div class="row"><button class="btn ghost small" id="plExample">Load example week</button><button class="btn ghost small" id="plReset">Clear everything</button></div>
+   </div>
+
+   <!-- STEP 1 -->
+   <div class="pane active" data-step="0">
+    <h3>1 · Your school week</h3>
+    <p class="muted small">Import your timetable as a calendar file (.ics) if you can export one from your school calendar or timetable app. Otherwise just set your school hours below.</p>
+    <div class="row">
+     <div class="field"><label for="plSchoolStart">School starts</label><input type="time" id="plSchoolStart" step="1800"></div>
+     <div class="field"><label for="plSchoolEnd">School finishes</label><input type="time" id="plSchoolEnd" step="1800"></div>
+     <div class="field"><label for="plWake">Earliest you'll plan from</label><input type="time" id="plWake" step="1800"></div>
+     <div class="field"><label for="plStop">Stop by</label><input type="time" id="plStop" step="1800"></div>
+    </div>
+    <div class="field"><label>School days</label><div class="chipset" id="plSchoolDays"></div></div>
+    <div class="row">
+     <div class="field"><label for="plIcs">Import timetable (.ics)</label><input type="file" id="plIcs" accept=".ics,text/calendar"></div>
+    </div>
+    <div class="small muted" id="plIcsMsg"></div>
+    <div class="itemlist" id="plLessonList"></div>
+   </div>
+
+   <!-- STEP 2 -->
+   <div class="pane" data-step="1">
+    <h3>2 · Recurring commitments</h3>
+    <p class="muted small">Add anything fixed this week: trainings, games, music or tutoring lessons, appointments, a part-time job, and family or wellbeing time. Wellbeing time counts. Sleep, dinner with whānau and downtime protect your study.</p>
+    <div class="field"><label>Quick add</label><div class="chipset" id="plCommitChips"></div></div>
+    <div class="row">
+     <div class="field"><label for="cName">What</label><input type="text" id="cName" placeholder="Rowing training"></div>
+     <div class="field"><label for="cType">Type</label><select id="cType"><option>Training</option><option>Game / event</option><option>Lesson</option><option>Appointment</option><option>Work</option><option>Family</option><option>Wellbeing</option></select></div>
+     <div class="field"><label for="cStart">From</label><input type="time" id="cStart" step="1800" value="16:00"></div>
+     <div class="field"><label for="cEnd">To</label><input type="time" id="cEnd" step="1800" value="17:30"></div>
+    </div>
+    <div class="field"><label>Days</label><div class="chipset" id="cDays"></div></div>
+    <div><button class="btn" id="cAdd">Add commitment</button></div>
+    <div class="itemlist" id="plCommitList"></div>
+   </div>
+
+   <!-- STEP 3 -->
+   <div class="pane" data-step="2">
+    <h3>3 · To-do tasks with a deadline</h3>
+    <p class="muted small">Set homework and the <b>very next step</b> on any IA, EE or TOK task. "Work on EE" isn't a next step; "Write 300 words of section 2" is.</p>
+    <div class="row">
+     <div class="field"><label for="tKind">Kind</label><select id="tKind"><option>Homework</option><option>IA next step</option><option>EE next step</option><option>TOK next step</option><option>CAS</option><option>Other</option></select></div>
+     <div class="field"><label for="tSubj">Subject</label><input type="text" id="tSubj" placeholder="Chemistry"></div>
+     <div class="field" style="flex:3 1 260px"><label for="tTask">The task</label><input type="text" id="tTask" placeholder="Finish data table and graph for IA trial"></div>
+    </div>
+    <div class="vague" id="tVague" aria-live="polite"></div>
+    <div class="row">
+     <div class="field"><label for="tDue">Due</label><select id="tDue"></select></div>
+     <div class="field"><label for="tLen">Time needed</label><select id="tLen"><option value="1">30 min</option><option value="2" selected>1 hour</option><option value="3">1.5 hours</option><option value="4">2 hours</option><option value="6">3 hours</option></select></div>
+     <div class="field"><button class="btn" id="tAdd">Add to-do</button></div>
+    </div>
+    <div class="itemlist" id="plTodoList"></div>
+   </div>
+
+   <!-- STEP 4 -->
+   <div class="pane" data-step="3">
+    <h3>4 · Specific study</h3>
+    <p class="muted small">Turn "study biology" into something you'd know you'd finished. Pick an action, how much, and the topic.</p>
+    <div class="row">
+     <div class="field"><label for="sSubj">Subject</label><input type="text" id="sSubj" placeholder="Biology"></div>
+     <div class="field"><label for="sVerb">Action</label><select id="sVerb"><option>Complete</option><option>Make</option><option>Test myself on</option><option>Redo</option><option>Write</option><option>Annotate</option><option>Summarise</option><option>Practise</option></select></div>
+     <div class="field"><label for="sQty">How much</label><input type="text" id="sQty" placeholder="10 past-paper questions"></div>
+     <div class="field" style="flex:2 1 200px"><label for="sTopic">On</label><input type="text" id="sTopic" placeholder="enzymes (Topic C1.1)"></div>
+    </div>
+    <div class="small muted">Preview: <b id="sPreview">…</b></div>
+    <div class="vague" id="sVague" aria-live="polite"></div>
+    <div class="row">
+     <div class="field"><label for="sLen">Session length</label><select id="sLen"><option value="1">30 min</option><option value="2" selected>1 hour</option><option value="3">1.5 hours</option></select></div>
+     <div class="field"><label for="sTimes">Times this week</label><select id="sTimes"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+     <div class="field"><button class="btn" id="sAdd">Add study task</button></div>
+    </div>
+    <div class="itemlist" id="plStudyList"></div>
+    <div class="row">
+     <div class="field"><label for="plCap">Most study per school night</label><select id="plCap"><option value="4">2 hours</option><option value="5">2.5 hours</option><option value="6" selected>3 hours</option><option value="7">3.5 hours</option></select></div>
+     <div class="field"><label for="plCapW">Most study per weekend day</label><select id="plCapW"><option value="6">3 hours</option><option value="8" selected>4 hours</option><option value="10">5 hours</option></select></div>
+     <div class="field"><label for="plMorning">Use mornings before school?</label><select id="plMorning"><option value="1">Yes</option><option value="0" selected>Only if needed</option></select></div>
+    </div>
+   </div>
+
+   <!-- STEP 5 -->
+   <div class="pane" data-step="4">
+    <h3>5 · Your week</h3>
+    <div class="grid g4" id="plStats"></div>
+    <div id="plWarn" class="stack"></div>
+    <div class="legend">
+     <span><i style="background:color-mix(in srgb,var(--navy) 14%,var(--card))"></i>School</span>
+     <span><i style="background:color-mix(in srgb,var(--c-act) 22%,var(--card))"></i>Commitment</span>
+     <span><i style="background:color-mix(in srgb,var(--gold) 26%,var(--card))"></i>Family / wellbeing</span>
+     <span><i style="background:color-mix(in srgb,var(--scarlet) 26%,var(--card))"></i>To-do</span>
+     <span><i style="background:color-mix(in srgb,var(--c-cre) 22%,var(--card))"></i>Study</span>
+     <span><i class="cell brk" style="height:14px"></i>Break</span>
+    </div>
+    <div class="tablebox" style="max-height:620px;overflow:auto"><div class="weekgrid" id="plGrid"></div></div>
+    <h4>Day by day</h4>
+    <div class="daycards" id="plDays"></div>
+    <div class="row"><button class="btn" id="plCopy">Copy plan as text</button><span class="small muted" id="plCopyMsg"></span></div>
+   </div>
+
+   <div class="row" style="justify-content:space-between">
+    <button class="btn ghost" id="plBack">Back</button>
+    <button class="btn" id="plNext">Next</button>
+   </div>
+  </div>
+  <p class="small muted">Your plan is saved in this browser on this device only. Nobody else, including teachers, can see it.</p>
+ </div>
+</section>
+
+</div>
+</main>
+<footer>
+ <div class="wrap stack">
+  <p>St Peter's School, Cambridge · IB Diploma Programme student hub. Created for St Peter's students; this is a school resource, not an official IB website.</p>
+  <p>Official criteria, guides and prompt lists come from the International Baccalaureate Organization. Where this site and the IB's documents differ, the IB documents apply. Example reflections, paragraphs and objects on this site were written as illustrations, not taken from real student work.</p>
+ </div>
+</footer>
+<script>
+
+// ---------- Content data ----------
+const LOS = [
+ {n:"LO1",t:"Strengths and growth",d:"Identify your own strengths and develop areas for growth.",ev:"You name a specific strength or weakness, show it in action, and show change over time.",st:"Before this I assumed I was good at… but I found that…"},
+ {n:"LO2",t:"Challenge and new skills",d:"Show that you took on challenges and developed new skills in the process.",ev:"Something genuinely new or hard for you (not just new to the school), and the skill you built.",st:"The hardest part was… To get past it I had to learn…"},
+ {n:"LO3",t:"Initiative and planning",d:"Show how you initiate and plan a CAS experience.",ev:"Your plan, emails, a budget, a timeline, and how you adjusted it when things changed.",st:"No one asked me to… so I… My plan changed when…"},
+ {n:"LO4",t:"Commitment and perseverance",d:"Show commitment to and perseverance in CAS experiences.",ev:"Sustained involvement over weeks or months, especially through setbacks.",st:"In week six, when… I kept going because…"},
+ {n:"LO5",t:"Collaboration",d:"Show the skills and recognise the benefits of working with others.",ev:"Your role in a team, a disagreement you worked through, what others brought.",st:"I couldn't have done this alone because… When we disagreed about… we…"},
+ {n:"LO6",t:"Global engagement",d:"Show engagement with issues of global significance.",ev:"A local action you connect to a wider issue (climate, inequality, health), with some research.",st:"This local problem is part of a bigger pattern because…"},
+ {n:"LO7",t:"Ethics",d:"Recognise and consider the ethics of choices and actions.",ev:"A moment where you weighed what was right, fair or respectful, and why.",st:"I had to decide whether… I chose… because…"}
+];
+
+const IDEAS = [
+ {s:"cre",t:"Learn te reo Māori conversation",d:"Weekly sessions, then lead a short mihi at a school event."},
+ {s:"cre",t:"Design the production set",d:"Concept sketches, build with the tech crew, reflect on feedback."},
+ {s:"cre",t:"Start a school podcast",d:"Interview staff and old scholars; learn audio editing."},
+ {s:"cre",t:"Learn an instrument from scratch",d:"Set a goal, like performing at a house music event."},
+ {s:"cre",t:"Photography of local birdlife",d:"Document kererū and tūī around Cambridge; exhibit prints."},
+ {s:"act",t:"Rowing at Lake Karāpiro",d:"Training through the season, aiming for a regatta."},
+ {s:"act",t:"Try a sport you've never played",d:"Ultimate frisbee, climbing, fencing. Track how your skills change."},
+ {s:"act",t:"Train for a half marathon",d:"Twelve-week plan with logged runs and reflections."},
+ {s:"act",t:"Tramp in the Kaimai Range",d:"Plan routes, gear and safety with a group."},
+ {s:"act",t:"Coach a junior team",d:"Weekly coaching gives you activity and collaboration."},
+ {s:"ser",t:"Riparian planting on the Waikato River",d:"Work with a catchment care group on planting and monitoring."},
+ {s:"ser",t:"Peer tutoring for juniors",d:"Weekly maths or reading support; reflect on how people learn."},
+ {s:"ser",t:"Food bank volunteering",d:"Sorting, packing, and learning what families really need."},
+ {s:"ser",t:"Retirement village visits",d:"Regular visits, games or tech help for residents."},
+ {s:"ser",t:"SPCA or animal shelter support",d:"Fundraising, fostering or awareness campaigns."},
+ {s:"proj",t:"Waikato River water-quality project",d:"Monthly sampling with a local group, data shared with the community. Service, activity and global engagement."},
+ {s:"proj",t:"Matariki community evening",d:"Plan a whānau evening with kai, performance and stories. Creativity, service, initiative."},
+ {s:"proj",t:"Device recycling drive",d:"Collect, refurbish and donate old laptops to families who need them. Service, ethics, planning."},
+ {s:"proj",t:"Charity concert or fun run",d:"Organise from venue to budget to publicity. Creativity or activity plus service."}
+];
+
+const CRIT = [
+ {k:"A",t:"Framework for the essay",max:6,
+  look:["A focused research question that can be answered in 4,000 words","Sources and methods that suit the question and subject","A clear structure that supports the argument","Correct referencing and presentation (titles, contents, labelled figures)"],
+  bands:[["0","Doesn't reach the level below."],["1–2","Question is vague or too broad; sources or methods poorly suited; structure gets in the way."],["3–4","Question is clear but may be broad; sources and methods mostly suitable; structure mostly supports the argument."],["5–6","Sharply focused question; well-chosen sources and methods; a structure that makes the argument easy to follow."]],
+  weak:"Research question: What is climate change doing to New Zealand?",
+  strong:"Research question: To what extent did water temperature affect the abundance of Paratya curvirostris in three Waikato tributaries between January and March 2027?",
+  q:["Can I answer this question well in 4,000 words?","Are my sources the right type for this subject?","Would a different method give me better evidence?","Is my structure helping or hiding my argument?"]},
+ {k:"B",t:"Knowledge and understanding",max:6,
+  look:["Accurate knowledge of the topic and its context","Correct use of subject terms and concepts","Understanding of the sources you use, not just quoting them"],
+  bands:[["0","Doesn't reach the level below."],["1–2","Knowledge is limited or has errors; terms often misused."],["3–4","Knowledge is generally accurate; terms mostly used well; some understanding of sources."],["5–6","Knowledge is accurate and relevant throughout; terms used precisely; clear understanding of sources and their context."]],
+  weak:"The economy got worse because of inflation, which is when prices go up a lot.",
+  strong:"Annual CPI inflation peaked at 7.3% in the June 2022 quarter, the highest since 1990. Because the Reserve Bank targets 1–3%, it responded by raising the Official Cash Rate, which is the transmission mechanism this essay examines.",
+  q:["Have I defined the key terms the way my subject uses them?","Do I understand where my main sources come from and their limits?","Is there background a reader needs that I've skipped?"]},
+ {k:"C",t:"Analysis and line of argument",max:6,
+  look:["Evidence that is analysed, not just described","A clear, consistent argument that answers the question","Each section builds towards the conclusion"],
+  bands:[["0","Doesn't reach the level below."],["1–2","Mostly description; little or no argument."],["3–4","Some analysis; an argument is there but may be inconsistent or lose focus."],["5–6","Effective analysis throughout; a clear, coherent argument that stays on the question."]],
+  weak:"Source A says the tour was controversial. Source B also says it was controversial. Source C shows photos of protests.",
+  strong:"While Sources A and B agree the tour divided opinion, B was written by a protest organiser in 1982, which helps explain its emphasis on Hamilton as a turning point. Read alongside the match-day police report, this suggests…",
+  q:["Where am I describing when I should be analysing?","Can I state my argument in one sentence?","Does every paragraph move the argument forward?"]},
+ {k:"D",t:"Discussion and evaluation",max:8,
+  look:["Evaluation of your own evidence, methods and sources","Consideration of other interpretations or counter-arguments","A conclusion that is supported and acknowledges limits","Awareness of unresolved questions"],
+  bands:[["0","Doesn't reach the level below."],["1–2","Little evaluation; conclusion unsupported."],["3–4","Some evaluation, often general; conclusion partly supported."],["5–6","Relevant evaluation of most evidence and methods; other views considered; supported conclusion."],["7–8","Insightful, specific evaluation throughout; strengths and limits weighed; a nuanced conclusion that flows from the discussion."]],
+  weak:"My experiment had some errors, so the results might not be accurate. More trials would make it better.",
+  strong:"Uncertainty in the titre (±0.10 cm³) is small compared with the 2.4 cm³ difference between conditions, so the trend is unlikely to be an artefact. The larger risk is that tap-water hardness varied between days, which I didn't measure; this limits the conclusion to…",
+  q:["What are the biggest weaknesses in my evidence, and how much do they matter?","Who would disagree with my conclusion, and why?","Is my conclusion as strong as my evidence allows, and no stronger?"]},
+ {k:"E",t:"Reflection",max:4,
+  look:["A 500-word statement on the Reflection and Progress Form","How your thinking and approach changed during the process","Skills you developed and how they transfer to other learning","Written after the viva voce, drawing on all three reflection sessions"],
+  bands:[["0","Doesn't reach the level below."],["1–2","Mostly describes what was done; little sense of personal growth."],["3–4","Shows how thinking developed, with specific examples of decisions, setbacks and transferable skills."]],
+  weak:"I enjoyed doing my EE and learned a lot about research. Time management was hard but I got it done in the end.",
+  strong:"My first method relied on a single online survey, and in our second session my supervisor asked who would actually answer it. That question changed how I think about evidence: I added interviews and found the survey had over-represented boarders. I now check who is missing from a data set before I trust it, something I've already used in my Geography IA.",
+  q:["What decision in my EE am I most proud of, and why?","When did my thinking change, and what changed it?","Which skill from this will I use again?"]}
+];
+
+const SUBJ = [
+ {t:"English A",rq:"How does Patricia Grace use shifting narrators in <i>Potiki</i> to present land as a source of identity?",tips:["Focus on one or two literary works, closely read.","Your argument must be literary: how and why the writer creates effects, not just what happens.","Secondary criticism supports your reading; it doesn't replace it."]},
+ {t:"Language B",rq:"How did the French press represent the 2023 pension reform protests?",tips:["Written in the target language.","Focus on language in its cultural context, or a cultural artefact or text.","Use sources in the target language."]},
+ {t:"History",rq:"To what extent was the 1981 Springbok tour a turning point in New Zealand attitudes to race relations?",tips:["Must be at least ten years in the past.","Rely on primary sources and evaluate their origin, purpose and limits.","Engage with different historians' interpretations."]},
+ {t:"Economics",rq:"To what extent has the 2023 minimum wage increase affected youth employment in Cambridge hospitality businesses?",tips:["Apply economic theory to a real, narrow case.","Primary data (surveys, interviews) is useful but must be well designed.","Use diagrams and explain them."]},
+ {t:"Biology",rq:"How does the concentration of copper sulfate (0–1.0 mM) affect the growth rate of duckweed (<i>Lemna minor</i>)?",tips:["Experimental, database or fieldwork approaches are all possible.","Control variables carefully and get enough repeats.","Ethics matter: no harm to animals, follow the IB animal experimentation policy."]},
+ {t:"Chemistry",rq:"How does temperature affect the rate of vitamin C degradation in kiwifruit juice, measured by iodometric titration?",tips:["Lab work, data analysis or both.","Explain the chemistry, not just the procedure.","Treat uncertainties properly and evaluate their impact."]},
+ {t:"Physics",rq:"How does the length of a rowing oar's lever arm affect the force at the blade, modelled and tested in a lab rig?",tips:["Good physics EEs test a model against data.","Quantify uncertainty and show it on graphs.","Keep the question narrow enough for a full analysis."]},
+ {t:"Mathematics",rq:"How can a Markov chain model predict the outcome of a squash rally from point-win probabilities?",tips:["The maths must be at a level that challenges you, and explained clearly.","A real application helps but the mathematics is the focus.","Define notation and justify every step."]},
+ {t:"Visual Arts",rq:"How did Colin McCahon use text within landscape to communicate spiritual ideas in his Necessary Protection series?",tips:["Analyse specific artworks you can examine closely, ideally in person.","Include labelled images.","Connect formal analysis (composition, colour, materials) to meaning and context."]},
+ {t:"Interdisciplinary",rq:"To what extent do economic incentives and ecological evidence explain the uptake of riparian planting by Waikato dairy farmers?",tips:["Combine two (or more) DP subjects, using methods from each.","The question must genuinely need both subjects to answer it.","Your supervisor will help you show how the subjects are integrated, not just placed side by side."]}
+];
+
+const EE_CHECK = [
+ "Read the EE guide pages for my subject",
+ "Brainstorm three possible topics I care about",
+ "Choose subject and pathway (subject-focused or interdisciplinary)",
+ "Meet my supervisor and agree how we'll communicate",
+ "First reflection session: topic, initial question and plan",
+ "Narrow my research question so it's answerable in 4,000 words",
+ "Find and evaluate key sources, or design my method",
+ "Set up a referencing system from day one",
+ "Collect data or complete core research",
+ "Write a detailed outline with my argument in one sentence",
+ "Second reflection session (interim): progress and next steps",
+ "Write the full first draft",
+ "Get supervisor feedback on the full draft (one draft only)",
+ "Revise: argument, evaluation (criterion D), presentation",
+ "Check word count, references, figures and contents page",
+ "Submit final essay",
+ "Viva voce (third reflection session)",
+ "Write the 500-word RPF reflection statement"
+];
+
+const EX_CHECK = [
+ "Choose my theme: the core theme or one optional theme",
+ "Read all 35 prompts and shortlist three",
+ "Brainstorm objects from my own life, subjects and community",
+ "Pick ONE prompt and three objects that each say something different",
+ "Check every object is specific and real (who, what, where, when)",
+ "Write a heading and image for each object",
+ "Write about each object: context, link to the prompt, justification (about 300 words each)",
+ "Make each link to the prompt explicit, using its exact words",
+ "Check the three objects build on each other",
+ "Check the total is 950 words or fewer (not counting references)",
+ "Add references for every image and source",
+ "Teacher feedback, then revise",
+ "Submit the final exhibition file"
+];
+
+const ES_CHECK = [
+ "Read all six prescribed titles for my session",
+ "Pick a title I can answer with real examples I know well",
+ "Unpack the title: key terms, assumptions, the question underneath",
+ "Choose two areas of knowledge (or themes) to explore",
+ "Collect specific examples, ideally from my own subjects and experience",
+ "Plan claims, counterclaims and evaluation for each AOK",
+ "Write my thesis in one sentence",
+ "Write the first draft (aim for about 1,550 words)",
+ "Teacher comments on the draft",
+ "Revise: link back to the title in every paragraph",
+ "Check the conclusion is clear and qualified",
+ "Check the word count is 1,600 or fewer and references are complete",
+ "Submit the final essay and the planning document"
+];
+
+const AOKS = [
+ {k:"History",scope:"Knowledge about the human past, built from what traces survive.",
+  produce:["Traces survive (documents, oral histories, objects)","Historian selects sources and asks questions","Sources are evaluated for origin, purpose and reliability","An interpretation is built and argued"],
+  share:["Published books and articles","Peer review and debate between historians","Museums, memorials, curriculum","Revision as new sources or perspectives emerge"],
+  tools:"Source analysis, corroboration, oral history, archaeology, archives.",
+  persp:"Whose history gets told? Te Tiriti o Waitangi exists in English and te reo Māori versions with different meanings, which shapes how the past is interpreted today.",
+  ex:["The Waitangi Tribunal, which weighs oral evidence alongside written records","The 1981 Springbok tour, remembered differently by different communities","The 2020 removal of Captain John Hamilton's statue from Hamilton's Civic Square"],
+  kq:["How can we know about the past when the people involved can't be asked?","Does the historian's perspective help or hinder historical knowledge?","Is oral history as reliable as written records?"]},
+ {k:"Human Sciences",scope:"Knowledge about how people think, behave and organise societies: psychology, economics, anthropology, sociology.",
+  produce:["Question about human behaviour","Hypothesis or theory","Data from surveys, experiments, observation or interviews","Statistical or qualitative analysis","Model or explanation"],
+  share:["Journals and peer review","Policy reports (e.g. Stats NZ, Treasury)","Media coverage, often simplified","Replication attempts, which can confirm or overturn results"],
+  tools:"Surveys, controlled experiments, ethnography, statistics, models.",
+  persp:"People change their behaviour when observed, and researchers share the culture they study. Kaupapa Māori research methods put community priorities first.",
+  ex:["The Dunedin Multidisciplinary Health and Development Study, following about 1,000 people since 1972","The NZ Census and debates about what it should count","The replication crisis in psychology"],
+  kq:["Can human behaviour be predicted the way the natural world can?","How does being part of what you study affect what you can know?","Should research benefit the community being studied?"]},
+ {k:"Natural Sciences",scope:"Knowledge about the physical and natural world, aimed at explanation and prediction.",
+  produce:["Observation or question","Hypothesis","Experiment or fieldwork with controlled variables","Data analysis and uncertainty","Conclusion and theory"],
+  share:["Peer-reviewed journals","Conferences and open data","Replication by other labs","Science communication and policy (e.g. climate reports)"],
+  tools:"Experiments, measurement instruments, mathematical models, peer review, replication.",
+  persp:"Science aims for objectivity, but funding, instruments and what counts as a worthwhile question shape it. Mātauranga Māori brings long-term ecological knowledge.",
+  ex:["Marshall and Warren's work on stomach ulcers, rejected and then awarded a Nobel Prize","GeoNet earthquake monitoring and forecasting after the Kaikōura quake","The 2021 'Listener letter' debate about mātauranga Māori in the science curriculum"],
+  kq:["How does scientific knowledge change, and is it progress?","Can we be certain of anything that is based on observation?","What makes a scientific explanation better than another?"]},
+ {k:"Mathematics",scope:"Knowledge built through reasoning from axioms and definitions, applied far beyond itself.",
+  produce:["Patterns noticed or a problem posed","Conjecture","Proof from axioms and existing theorems","Theorem accepted"],
+  share:["Proofs checked by other mathematicians","Journals and preprints","Computer-verified proofs","Teaching and textbooks"],
+  tools:"Axioms, definitions, deductive proof, notation, computation.",
+  persp:"Is maths discovered or invented? Different cultures developed different systems, such as Māori navigation using star paths and mental geometry.",
+  ex:["Andrew Wiles's proof of Fermat's Last Theorem, with a flaw found and fixed","The four colour theorem, proved with a computer in 1976","Modelling COVID-19 spread in New Zealand in 2020"],
+  kq:["Is mathematical knowledge more certain than other knowledge?","Why does abstract maths describe the physical world so well?","Can a proof no person can check be knowledge?"]},
+ {k:"The Arts",scope:"Knowledge expressed and gained through creating and experiencing artworks.",
+  produce:["Artist's intention, experience or culture","Creative process and experimentation","Artwork made","Meaning built by audience and critics"],
+  share:["Galleries, performances, recordings","Critics and curators","Education and the canon","Audience response, which changes over time"],
+  tools:"Technique, interpretation, criticism, performance, emotional and aesthetic response.",
+  persp:"Meaning depends on who is looking. Toi Māori such as whakairo carry whakapapa and knowledge, not just aesthetic value.",
+  ex:["Colin McCahon's text paintings","Lorde's <i>Te Ao Mārama</i>, a reo Māori EP released alongside her 2021 album","Banksy's <i>Girl with Balloon</i>, which shredded at auction"],
+  kq:["Can art tell us truths that other areas of knowledge cannot?","Who decides what an artwork means: the artist or the audience?","Does art need to be understood to be valuable?"]}
+];
+
+const OBJECTS = [
+ {p:"What counts as good evidence for a claim?",th:"Knowledge and the Knower",o:[["Your Year 12 Biology lab book","Your own data: when did you decide a result was good enough?"],["A Waikato Times front page from the 1981 tour","The same event remembered differently; evidence depends on the question."],["A GeoNet earthquake forecast","Probabilistic evidence: useful, yet never certain."]]},
+ {p:"What challenges are raised by the dissemination and/or communication of knowledge?",th:"Knowledge and Technology",o:[["An AI-generated image that went viral","Fast sharing, hard verification."],["The NZ Government's 2020 'Unite against COVID-19' alert level poster","Simplifying complex knowledge for millions."],["A retracted scientific paper","Correction rarely travels as far as the original claim."]]},
+ {p:"Does some knowledge belong only to particular communities of knowers?",th:"Knowledge and Indigenous Societies",o:[["A family whakapapa chart","Knowledge held and passed on within whānau."],["A rongoā Māori plant guide from a local marae","Who can share, use or profit from traditional knowledge?"],["Your school's team playbook","Knowledge that only means something inside a community."]]},
+ {p:"Who owns knowledge?",th:"Knowledge and Indigenous Societies",o:[["The Wai 262 Waitangi Tribunal report (2011)","Claims about mātauranga Māori, flora and fauna."],["A pharmaceutical patent","Legal ownership of knowledge."],["A shared Google Doc of class notes","Who 'owns' collaborative knowledge?"]]},
+ {p:"How does the way that we organize or classify knowledge affect what we know?",th:"Knowledge and Language",o:[["A te reo Māori bird name list beside scientific names","Different systems, different relationships."],["The St Peter's subject options booklet","How subject boxes shape what students study."],["A supermarket's 'healthy' shelf labels","Classifying shapes behaviour."]]},
+ {p:"Is bias inevitable in the production of knowledge?",th:"Knowledge and Politics",o:[["An election poll from a news site","Question wording and sampling choices."],["Two newspapers' headlines on the same budget","Framing the same facts."],["A Wikipedia talk page argument","Producing 'neutral' knowledge collaboratively."]]},
+ {p:"Can new knowledge change established values or beliefs?",th:"Knowledge and Religion",o:[["A photo of a church congregation debating a doctrinal change","Communities revising beliefs."],["Darwin's <i>On the Origin of Species</i> (1859 first edition)","Scientific ideas challenging religious views."],["The 2013 NZ marriage equality bill debate transcript","Values shifting through public reasoning."]]},
+ {p:"What is the relationship between personal experience and knowledge?",th:"Knowledge and the Knower",o:[["Your first driving licence","Knowing rules vs knowing how to drive."],["A rowing erg score sheet","Data vs the feeling of effort."],["A letter from a grandparent","Experience passed on, second-hand knowledge."]]}
+];
+
+// ---------- Helpers ----------
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+async function copyText(t, msgEl){
+  try{ await navigator.clipboard.writeText(t); msgEl.textContent = "Copied."; }
+  catch(e){ msgEl.textContent = "Copy was blocked here. Select the text and copy it manually."; }
+  setTimeout(()=>msgEl.textContent="", 4000);
+}
+function subtabs(tabsEl, onPick){
+  tabsEl.addEventListener("click", e => {
+    const b = e.target.closest("button"); if(!b) return;
+    $$("button", tabsEl).forEach(x => x.setAttribute("aria-selected", x === b ? "true" : "false"));
+    onPick(b);
+  });
+}
+
+// ---------- Routing ----------
+const VIEWS = ["home","diploma","cas","ee","tok","planner"];
+function route(){
+  const h = (location.hash || "#home").slice(1);
+  const v = VIEWS.includes(h) ? h : "home";
+  $$("section.view").forEach(s => s.classList.toggle("active", s.id === "v-" + v));
+  $$("nav.tabs a").forEach(a => a.getAttribute("href") === "#" + v ? a.setAttribute("aria-current","page") : a.removeAttribute("aria-current"));
+  if(VIEWS.includes(h)) window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route);
+
+// ---------- Diploma checker ----------
+(function(){
+  const box = $("#calcSubjects");
+  const defaults = [["English A","HL",5],["French B","SL",6],["History","HL",5],["Biology","HL",4],["Maths AA","SL",5],["Visual Arts","SL",6]];
+  defaults.forEach((d,i) => {
+    box.insertAdjacentHTML("beforeend", `<div class="card" style="padding:12px 14px">
+      <div class="field"><label for="cs${i}n">Subject ${i+1}</label><input type="text" id="cs${i}n" value="${d[0]}"></div>
+      <div class="row"><div class="field"><label for="cs${i}l">Level</label><select id="cs${i}l"><option${d[1]==="HL"?" selected":""}>HL</option><option${d[1]==="SL"?" selected":""}>SL</option></select></div>
+      <div class="field"><label for="cs${i}g">Grade</label><select id="cs${i}g">${[7,6,5,4,3,2,1].map(g=>`<option${g===d[2]?" selected":""}>${g}</option>`).join("")}</select></div></div></div>`);
+  });
+  const M = {A:{A:3,B:3,C:2,D:2},B:{A:3,B:2,C:2,D:1},C:{A:2,B:2,C:1,D:0},D:{A:2,B:1,C:0,D:0}};
+  function calc(){
+    const subs = [0,1,2,3,4,5].map(i => ({l:$(`#cs${i}l`).value, g:+$(`#cs${i}g`).value}));
+    const tok = $("#calcTok").value, ee = $("#calcEe").value, cas = $("#calcCas").value === "1";
+    const sum = subs.reduce((a,s)=>a+s.g,0);
+    const failE = tok === "E" || ee === "E";
+    const core = failE ? 0 : M[ee][tok];
+    const total = sum + core;
+    const hl = subs.filter(s=>s.l==="HL").map(s=>s.g).sort((a,b)=>b-a);
+    const sl = subs.filter(s=>s.l==="SL").map(s=>s.g);
+    const hlPts = hl.slice(0,3).reduce((a,b)=>a+b,0);
+    const slPts = hl.length === 4 ? sl.reduce((a,b)=>a+b,0) + hl[3] : sl.reduce((a,b)=>a+b,0);
+    const slNeed = sl.length === 2 ? 5 : 9;
+    const twos = subs.filter(s=>s.g===2).length, threesOrBelow = subs.filter(s=>s.g<=3).length;
+    const checks = [
+      [hl.length>=3 && hl.length<=4, `At least three HL subjects (you have ${hl.length})`],
+      [cas, "CAS requirements met"],
+      [total>=24, `At least 24 points (you have ${total})`],
+      [!failE, "No E in TOK or the EE"],
+      [subs.every(s=>s.g>=2), "No grade 1 in any subject"],
+      [twos<=2, `No more than two grade 2s (you have ${twos})`],
+      [threesOrBelow<=3, `No more than three grades of 3 or below (you have ${threesOrBelow})`],
+      [hlPts>=12, `At least 12 HL points (you have ${hlPts})`],
+      [slPts>=slNeed, `At least ${slNeed} SL points (you have ${slPts})`]
+    ];
+    const ok = checks.every(c=>c[0]);
+    $("#calcOut").innerHTML = `<div class="row" style="align-items:center;gap:24px">
+      <div class="stat"><span class="small muted">Subjects</span><b>${sum}</b></div>
+      <div class="stat"><span class="small muted">Core points</span><b>+${core}</b></div>
+      <div class="stat"><span class="small muted">Total</span><b>${total} / 45</b></div>
+      <span class="tag ${ok?"ok":"bad"}" style="font-size:.95rem;padding:5px 12px">${ok?"Diploma conditions met":"A condition is not met"}</span></div>
+      <div class="chipset">${checks.map(c=>`<span class="tag ${c[0]?"ok":"bad"}">${c[0]?"✓":"✗"} ${esc(c[1])}</span>`).join("")}</div>`;
+  }
+  $("#calc").addEventListener("input", calc); $("#calc").addEventListener("change", calc); calc();
+})();
+
+// ---------- CAS ----------
+(function(){
+  const tabs = $("#loTabs");
+  tabs.innerHTML = LOS.map((l,i)=>`<button role="tab" aria-selected="${i===0}" data-i="${i}">${l.n} ${l.t}</button>`).join("");
+  const show = i => { const l = LOS[i]; $("#loPanel").innerHTML = `<span class="tag">${l.n}</span><h3>${l.t}</h3><p>${l.d}</p><p><b>What evidence looks like:</b> ${l.ev}</p><p class="muted"><b>Sentence starter:</b> <i>${l.st}</i></p>`; };
+  subtabs(tabs, b => show(+b.dataset.i)); show(0);
+
+  const ig = $("#ideaGrid");
+  const label = {cre:["cre","Creativity"],act:["act","Activity"],ser:["ser","Service"],proj:["","CAS project idea"]};
+  const draw = f => ig.innerHTML = IDEAS.filter(x=>f==="all"||x.s===f).map(x=>`<div class="card"><span class="tag ${label[x.s][0]}" style="align-self:flex-start">${label[x.s][1]}</span><h4>${x.t}</h4><p class="small muted">${x.d}</p></div>`).join("");
+  subtabs($("#ideaTabs"), b => draw(b.dataset.f)); draw("all");
+
+  // Reflection builder
+  const lo = $("#rbLO"); lo.innerHTML = LOS.map(l=>`<option value="${l.n}">${l.n} ${l.t}</option>`).join(""); lo.value = "LO6";
+  const ids = ["rbExp","rbStrand","rbLO","rbWhat","rbFeel","rbLearn","rbNext"];
+  const saved = store.get("stp-reflect", null);
+  if(saved) ids.forEach(id => { if(saved[id]!==undefined) $("#"+id).value = saved[id]; });
+  function build(){
+    const v = Object.fromEntries(ids.map(id=>[id,$("#"+id).value.trim()]));
+    store.set("stp-reflect", v);
+    const L = LOS.find(l=>l.n===v.rbLO);
+    const feelWords = /(felt|feel|frustrat|proud|nervous|anxious|happy|excited|uncomfortable|surprised|disappoint|confident|worried|relieved)/i;
+    const linkWords = /(realis|learn|because|showed me|understand|noticed|this means|which means)/i;
+    const nextWords = /(next|will|plan to|going to|want to|in future|differently)/i;
+    const checks = [
+      [v.rbWhat.length>30 && /\d|[A-Z][a-z]+ [A-Z]/.test(v.rbWhat), "Specific detail (names, numbers, places)"],
+      [feelWords.test(v.rbFeel), "Feelings and why"],
+      [linkWords.test(v.rbLearn), "A realisation, not just a description"],
+      [v.rbLearn.length>60, "Enough depth in what you learned"],
+      [nextWords.test(v.rbNext), "A next step"]
+    ];
+    $("#rbChecks").innerHTML = checks.map(c=>`<span class="tag ${c[0]?"ok":"warn"}">${c[0]?"✓":"…"} ${c[1]}</span>`).join("");
+    $("#rbOut").value = `${v.rbExp} (${v.rbStrand}) · ${L.n} ${L.t}\n\n${v.rbWhat}\n\n${v.rbFeel}\n\n${v.rbLearn}\n\n${v.rbNext}`;
+  }
+  ids.forEach(id => $("#"+id).addEventListener("input", build));
+  $("#rbCopy").addEventListener("click", () => copyText($("#rbOut").value, $("#rbMsg")));
+  $("#rbClear").addEventListener("click", () => { ["rbExp","rbWhat","rbFeel","rbLearn","rbNext"].forEach(id=>$("#"+id).value=""); build(); });
+  build();
+})();
+
+// ---------- Checklists ----------
+function checklist(el, items, key, bar, pct){
+  const st = store.get(key, {});
+  const draw = () => {
+    el.innerHTML = items.map((t,i)=>`<label class="check ${st[i]?"done":""}"><input type="checkbox" data-i="${i}" ${st[i]?"checked":""}><span>${esc(t)}</span></label>`).join("");
+    const n = items.filter((_,i)=>st[i]).length, p = Math.round(n/items.length*100);
+    $(bar).style.width = p + "%"; $(pct).textContent = `${n} of ${items.length}`;
+  };
+  el.addEventListener("change", e => { const i = e.target.dataset.i; st[i] = e.target.checked; store.set(key, st); draw(); });
+  draw();
+}
+checklist($("#eeChecklist"), EE_CHECK, "stp-ee-check", "#eeBar", "#eePct");
+checklist($("#exChecklist"), EX_CHECK, "stp-ex-check", "#exBar", "#exPct");
+checklist($("#esChecklist"), ES_CHECK, "stp-es-check", "#esBar", "#esPct");
+
+// ---------- EE criteria ----------
+(function(){
+  const tabs = $("#critTabs");
+  tabs.innerHTML = CRIT.map((c,i)=>`<button role="tab" aria-selected="${i===0}" data-i="${i}">${c.k} · ${c.t} (${c.max})</button>`).join("");
+  const show = i => { const c = CRIT[i];
+    $("#critPanel").innerHTML = `<div class="grid g2">
+      <div class="stack"><h4>Criterion ${c.k}: ${c.t} · ${c.max} marks</h4><p class="small muted">What examiners look for</p><ul class="clean">${c.look.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+      <div class="tablebox"><table><thead><tr><th>Marks</th><th>What it looks like</th></tr></thead><tbody>${c.bands.map(b=>`<tr><td class="num"><b>${b[0]}</b></td><td>${b[1]}</td></tr>`).join("")}</tbody></table></div></div>
+      <div class="compare"><div class="ex weak"><span class="tag bad">Weaker</span><blockquote>${c.weak}</blockquote></div><div class="ex strong"><span class="tag ok">Stronger · written for this site</span><blockquote>${c.strong}</blockquote></div></div>
+      <div class="note"><b>Questions to ask your supervisor</b><ul class="clean small" style="margin-top:6px">${c.q.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+  };
+  subtabs(tabs, b => show(+b.dataset.i)); show(0);
+
+  const st = store.get("stp-crit", {});
+  $("#critSliders").innerHTML = CRIT.map(c=>`<div class="field"><label for="sl${c.k}">${c.k} · ${c.t}: <span class="num" id="slv${c.k}">${st[c.k]??Math.round(c.max/2)}</span> / ${c.max}</label><input type="range" min="0" max="${c.max}" value="${st[c.k]??Math.round(c.max/2)}" id="sl${c.k}" style="accent-color:var(--scarlet)"></div>`).join("");
+  const sum = () => { let t=0; CRIT.forEach(c=>{ const v=+$("#sl"+c.k).value; st[c.k]=v; $("#slv"+c.k).textContent=v; t+=v; }); store.set("stp-crit", st); $("#critTotal").textContent = `${t} / 30`; $("#critBar").style.width = (t/30*100)+"%"; };
+  $("#critSliders").addEventListener("input", sum); sum();
+
+  const stabs = $("#subjTabs");
+  stabs.innerHTML = SUBJ.map((s,i)=>`<button role="tab" aria-selected="${i===0}" data-i="${i}">${s.t}</button>`).join("");
+  const sshow = i => { const s = SUBJ[i]; $("#subjPanel").innerHTML = `<h3>${s.t}</h3><p><b>Example of a focused question:</b> <i>${s.rq}</i></p><ul class="clean">${s.tips.map(t=>`<li>${t}</li>`).join("")}</ul>`; };
+  subtabs(stabs, b => sshow(+b.dataset.i)); sshow(0);
+})();
+
+// ---------- TOK ----------
+(function(){
+  const tabs = $("#aokTabs");
+  tabs.innerHTML = AOKS.map((a,i)=>`<button role="tab" aria-selected="${i===0}" data-i="${i}">${a.k}</button>`).join("");
+  const flow = arr => `<div class="flow">${arr.map((s,i)=>`<div class="step"><b>${i+1}</b>${s}</div>`).join("")}</div>`;
+  const show = i => { const a = AOKS[i];
+    $("#aokPanel").innerHTML = `<h3>${a.k}</h3><p>${a.scope}</p>
+      <div class="flowlabel">How knowledge is produced</div>${flow(a.produce)}
+      <div class="flowlabel">How knowledge is shared and tested</div>${flow(a.share)}
+      <div class="grid g2"><div class="card"><h4>Methods and tools</h4><p class="small">${a.tools}</p><h4>Perspectives and ethics</h4><p class="small">${a.persp}</p></div>
+      <div class="card"><h4>Real examples to think with</h4><ul class="clean small">${a.ex.map(x=>`<li>${x}</li>`).join("")}</ul><h4>Knowledge questions</h4><ul class="clean small">${a.kq.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`;
+  };
+  subtabs(tabs, b => show(+b.dataset.i)); show(0);
+
+  const og = $("#objGrid");
+  const draw = f => og.innerHTML = OBJECTS.filter(o=>f==="all"||o.th===f).map(o=>`<div class="card"><span class="k">${o.th}</span><h4>${o.p}</h4><ol class="clean small">${o.o.map(x=>`<li><b>${x[0]}</b>: ${x[1]}</li>`).join("")}</ol></div>`).join("") || `<p class="muted">No examples for this theme yet. Ask your TOK teacher for ideas.</p>`;
+  $("#objTheme").addEventListener("change", e => draw(e.target.value)); draw("all");
+
+  [["#exTabs"],["#esTabs"]].forEach(([sel]) => subtabs($(sel), b => {
+    const sec = $(sel).parentElement;
+    $$(".pane", sec).forEach(p => p.classList.toggle("active", p.id === b.dataset.p));
+  }));
+})();
+
+// ---------- Weekly planner ----------
+(function(){
+  const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const FULL = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+  const KEY = "stp-planner-v1";
+  const toMin = t => { const [h,m] = (t||"0:0").split(":").map(Number); return Math.round((h*60+(m||0))/30)*30; };
+  const fmt = m => `${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+  const uid = () => Math.random().toString(36).slice(2,9);
+  const VAGUE = /\b(study|studying|revise|revising|revision|go over|look at|look over|work on|read over|review|prep|do some)\b/i;
+
+  const EXAMPLE = () => ({
+    schoolStart:"08:30", schoolEnd:"15:30", wake:"06:00", stop:"22:00", schoolDays:[0,1,2,3,4],
+    cap:6, capW:8, morning:"0", lessons:[],
+    commits:[
+      {id:uid(),name:"Rowing training",type:"Training",start:"15:45",end:"17:30",days:[0,2,4]},
+      {id:uid(),name:"Piano lesson",type:"Lesson",start:"16:00",end:"16:30",days:[1]},
+      {id:uid(),name:"Dinner with whānau",type:"Family",start:"18:00",end:"19:00",days:[0,1,2,3,4,5,6]},
+      {id:uid(),name:"Regatta",type:"Game / event",start:"06:00",end:"13:00",days:[5]},
+      {id:uid(),name:"Family time",type:"Family",start:"10:00",end:"12:00",days:[6]},
+      {id:uid(),name:"Wind down, screens off",type:"Wellbeing",start:"21:30",end:"22:00",days:[0,1,2,3,4,5,6]}
+    ],
+    todos:[
+      {id:uid(),kind:"Homework",subj:"Chemistry",task:"Finish 8 stoichiometry questions from the worksheet",due:2,len:2},
+      {id:uid(),kind:"TOK next step",subj:"TOK",task:"Choose my third exhibition object and write a 150-word justification",due:3,len:2},
+      {id:uid(),kind:"EE next step",subj:"History",task:"Write 300 words of section 2 and send supervisor my source list",due:4,len:3},
+      {id:uid(),kind:"IA next step",subj:"Maths AA",task:"Redo the regression graph and write 200 words on limitations",due:7,len:3}
+    ],
+    study:[
+      {id:uid(),subj:"Biology",text:"Complete 10 past-paper questions on enzymes",len:2,times:2},
+      {id:uid(),subj:"History",text:"Make 20 flashcards on causes of the Cold War",len:1,times:2},
+      {id:uid(),subj:"French B",text:"Write 1 practice Paper 1 email response",len:2,times:1}
+    ],
+    step:4
+  });
+  const EMPTY = () => ({schoolStart:"08:30",schoolEnd:"15:30",wake:"06:00",stop:"22:00",schoolDays:[0,1,2,3,4],cap:6,capW:8,morning:"0",lessons:[],commits:[],todos:[],study:[],step:0});
+  let S = store.get(KEY, null) || EXAMPLE();
+  const save = () => store.set(KEY, S);
+
+  // --- Day chip pickers
+  function dayChips(el, sel, onChange){
+    el.innerHTML = DAYS.map((d,i)=>`<button type="button" class="chip" data-i="${i}" aria-pressed="${sel.includes(i)}" style="${sel.includes(i)?"background:var(--scarlet);color:#fff;border-style:solid;border-color:var(--scarlet)":""}">${d}</button>`).join("");
+    el.onclick = e => { const b = e.target.closest("button"); if(!b) return; const i=+b.dataset.i; const k = sel.indexOf(i); k>=0 ? sel.splice(k,1) : sel.push(i); onChange(); dayChips(el, sel, onChange); };
+  }
+
+  // --- Step nav
+  const NAMES = ["1 School week","2 Commitments","3 To-dos","4 Study","5 Your plan"];
+  function go(n){
+    S.step = Math.max(0, Math.min(4, n)); save();
+    $$("#v-planner .pane[data-step]").forEach(p => p.classList.toggle("active", +p.dataset.step === S.step));
+    $("#plSteps").innerHTML = NAMES.map((t,i)=>`<button data-i="${i}" class="${i===S.step?"on":(i<S.step?"done":"")}">${t}</button>`).join("");
+    $("#plBack").disabled = S.step === 0;
+    $("#plNext").textContent = S.step === 3 ? "Build my week" : (S.step === 4 ? "Edit tasks" : "Next");
+    if(S.step === 4) render();
+  }
+  $("#plSteps").addEventListener("click", e => { const b = e.target.closest("button"); if(b) go(+b.dataset.i); });
+  $("#plBack").onclick = () => go(S.step - 1);
+  $("#plNext").onclick = () => go(S.step === 4 ? 2 : S.step + 1);
+
+  // --- Step 1
+  [["plSchoolStart","schoolStart"],["plSchoolEnd","schoolEnd"],["plWake","wake"],["plStop","stop"]].forEach(([id,k]) => {
+    $("#"+id).value = S[k]; $("#"+id).addEventListener("change", e => { S[k] = fmt(toMin(e.target.value)); e.target.value = S[k]; save(); });
+  });
+  const drawSchoolDays = () => dayChips($("#plSchoolDays"), S.schoolDays, save);
+  drawSchoolDays();
+  function drawLessons(){
+    const L = S.lessons;
+    $("#plLessonList").innerHTML = L.length ? `<p class="small muted">${L.length} timetable entries imported. <button class="btn ghost small" id="plClearL">Remove imported timetable</button></p>` +
+      DAYS.map((d,i)=>{ const ls = L.filter(l=>l.day===i).sort((a,b)=>toMin(a.start)-toMin(b.start)); return ls.length?`<div class="item"><span class="what">${d}</span><span class="small muted">${ls.map(l=>`${l.start} ${esc(l.name)}`).join(" · ")}</span></div>`:""; }).join("") : "";
+    const c = $("#plClearL"); if(c) c.onclick = () => { S.lessons = []; save(); drawLessons(); };
+  }
+  drawLessons();
+  function parseICSDate(v){
+    const m = v.match(/(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})?(Z)?)?/); if(!m) return null;
+    if(m[7]==="Z") return new Date(Date.UTC(+m[1],m[2]-1,+m[3],+(m[4]||0),+(m[5]||0)));
+    return new Date(+m[1],m[2]-1,+m[3],+(m[4]||0),+(m[5]||0));
+  }
+  $("#plIcs").addEventListener("change", async e => {
+    const f = e.target.files[0]; if(!f) return;
+    const txt = (await f.text()).replace(/\r?\n[ \t]/g, "");
+    const evs = [];
+    txt.split("BEGIN:VEVENT").slice(1).forEach(b => {
+      const get = k => { const m = b.match(new RegExp("^" + k + "[^:\\n]*:(.*)$", "m")); return m ? m[1].trim() : null; };
+      const s = parseICSDate(get("DTSTART")||""), en = parseICSDate(get("DTEND")||"");
+      if(!s || !en || !/T/.test(get("DTSTART"))) return;
+      evs.push({s, en, name:(get("SUMMARY")||"Lesson").replace(/\\,/g,",").replace(/\\n/g," "), weekly:/FREQ=WEEKLY/.test(get("RRULE")||"")});
+    });
+    if(!evs.length){ $("#plIcsMsg").textContent = "No timed events found in that file. Try exporting your timetable again, or set your school hours above."; return; }
+    const monday = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay()+6)%7)); return x.getTime(); };
+    const weeks = {}; evs.filter(v=>!v.weekly).forEach(v => (weeks[monday(v.s)] = weeks[monday(v.s)] || []).push(v));
+    const thisWk = monday(new Date());
+    const keys = Object.keys(weeks).map(Number).sort((a,b)=>a-b);
+    const pick = keys.includes(thisWk) ? thisWk : (keys.find(k=>k>thisWk) ?? keys[0]);
+    const chosen = (pick!==undefined ? weeks[pick] : []).concat(evs.filter(v=>v.weekly));
+    const seen = new Set(); S.lessons = [];
+    chosen.forEach(v => {
+      const day = (v.s.getDay()+6)%7, start = fmt(Math.floor((v.s.getHours()*60+v.s.getMinutes())/30)*30), end = fmt(Math.ceil((v.en.getHours()*60+v.en.getMinutes())/30)*30);
+      const k = [day,start,end,v.name].join("|"); if(seen.has(k)) return; seen.add(k);
+      S.lessons.push({day, start, end, name:v.name});
+    });
+    const ds = [...new Set(S.lessons.map(l=>l.day))].sort();
+    const inSchool = S.lessons.filter(l=>S.schoolDays.includes(l.day));
+    if(inSchool.length){ S.schoolStart = fmt(Math.min(...inSchool.map(l=>toMin(l.start)))); S.schoolEnd = fmt(Math.max(...inSchool.map(l=>toMin(l.end)))); $("#plSchoolStart").value=S.schoolStart; $("#plSchoolEnd").value=S.schoolEnd; }
+    save(); drawLessons();
+    $("#plIcsMsg").textContent = `Imported ${S.lessons.length} entries for ${pick!==undefined?"the week of "+new Date(pick).toLocaleDateString("en-NZ",{day:"numeric",month:"short"}):"your recurring timetable"} on ${ds.map(d=>DAYS[d]).join(", ")}. Check your school hours above.`;
+  });
+
+  // --- Step 2
+  const QUICK = [["Sports training","Training","16:00","17:30"],["Weekend game","Game / event","09:00","12:00"],["Music lesson","Lesson","16:00","16:30"],["Tutoring","Lesson","16:30","17:30"],["Part-time job","Work","17:00","20:00"],["Appointment","Appointment","16:00","17:00"],["Dinner with whānau","Family","18:00","19:00"],["Church / family time","Family","10:00","12:00"],["Exercise or a walk","Wellbeing","07:00","07:30"],["Downtime with friends","Wellbeing","19:30","20:30"],["Wind down, screens off","Wellbeing","21:30","22:00"]];
+  $("#plCommitChips").innerHTML = QUICK.map((q,i)=>`<button type="button" class="chip" data-i="${i}">+ ${q[0]}</button>`).join("");
+  let cDays = [0,2,4];
+  const drawCDays = () => dayChips($("#cDays"), cDays, ()=>{});
+  drawCDays();
+  $("#plCommitChips").onclick = e => { const b = e.target.closest("button"); if(!b) return; const q = QUICK[+b.dataset.i]; $("#cName").value=q[0]; $("#cType").value=q[1]; $("#cStart").value=q[2]; $("#cEnd").value=q[3]; $("#cName").focus(); };
+  $("#cAdd").onclick = () => {
+    const name = $("#cName").value.trim(); if(!name){ $("#cName").focus(); return; }
+    if(!cDays.length) return;
+    let start = fmt(toMin($("#cStart").value)), end = fmt(toMin($("#cEnd").value)); if(toMin(end)<=toMin(start)) end = fmt(toMin(start)+30);
+    S.commits.push({id:uid(), name, type:$("#cType").value, start, end, days:[...cDays].sort()});
+    $("#cName").value = ""; save(); drawCommits();
+  };
+  function drawCommits(){
+    $("#plCommitList").innerHTML = S.commits.map(c=>`<div class="item"><span><span class="what">${esc(c.name)}</span> <span class="tag ${/Family|Wellbeing/.test(c.type)?"warn":"act"}">${c.type}</span></span><span class="small muted">${c.days.map(d=>DAYS[d]).join(", ")} · ${c.start}–${c.end}</span><button class="btn ghost small" data-del="${c.id}" aria-label="Remove ${esc(c.name)}">Remove</button></div>`).join("") || `<p class="small muted">Nothing added yet. Start with a quick-add chip.</p>`;
+  }
+  $("#plCommitList").onclick = e => { const id = e.target.dataset.del; if(id){ S.commits = S.commits.filter(c=>c.id!==id); save(); drawCommits(); } };
+  drawCommits();
+
+  // --- Step 3
+  $("#tDue").innerHTML = DAYS.map((d,i)=>`<option value="${i}">${FULL[i]}</option>`).join("") + `<option value="7">Next week or later</option>`;
+  $("#tDue").value = "2";
+  const vagueCheck = (txt, el, kind) => {
+    const v = VAGUE.test(txt) && !/\d/.test(txt);
+    el.textContent = v ? `"${txt.match(VAGUE)[0]}" is hard to finish. Try something countable: "${kind}".` : "";
+    return v;
+  };
+  $("#tTask").addEventListener("input", () => vagueCheck($("#tTask").value, $("#tVague"), "Write 250 words of the method section"));
+  $("#tAdd").onclick = () => {
+    const task = $("#tTask").value.trim(); if(!task){ $("#tTask").focus(); return; }
+    S.todos.push({id:uid(), kind:$("#tKind").value, subj:$("#tSubj").value.trim() || $("#tKind").value.split(" ")[0], task, due:+$("#tDue").value, len:+$("#tLen").value});
+    $("#tTask").value = ""; $("#tVague").textContent = ""; save(); drawTodos();
+  };
+  function drawTodos(){
+    $("#plTodoList").innerHTML = S.todos.map(t=>`<div class="item"><span><span class="tag">${esc(t.kind)}</span> <span class="what">${esc(t.subj)}:</span> ${esc(t.task)}</span><span class="small muted">${t.due===7?"Due next week":"Due "+FULL[t.due]} · ${t.len*30} min</span><button class="btn ghost small" data-del="${t.id}">Remove</button></div>`).join("") || `<p class="small muted">No to-dos yet.</p>`;
+  }
+  $("#plTodoList").onclick = e => { const id = e.target.dataset.del; if(id){ S.todos = S.todos.filter(c=>c.id!==id); save(); drawTodos(); } };
+  drawTodos();
+
+  // --- Step 4
+  const sText = () => `${$("#sVerb").value} ${$("#sQty").value.trim() || "…"} ${$("#sTopic").value.trim() ? "on " + $("#sTopic").value.trim() : ""}`.trim();
+  function sPrev(){
+    const subj = $("#sSubj").value.trim();
+    $("#sPreview").textContent = (subj ? subj + ": " : "") + sText();
+    const q = $("#sQty").value.trim();
+    $("#sVague").textContent = q && !/\d/.test(q) ? "Add a number so you'll know when you're done, like \"15 questions\" or \"2 pages of notes\"." : (VAGUE.test(q) ? "Swap the vague word for an action you can count." : "");
+  }
+  ["sSubj","sVerb","sQty","sTopic"].forEach(id => $("#"+id).addEventListener("input", sPrev)); sPrev();
+  $("#sAdd").onclick = () => {
+    const subj = $("#sSubj").value.trim(); const q = $("#sQty").value.trim();
+    if(!subj){ $("#sSubj").focus(); return; } if(!q){ $("#sQty").focus(); $("#sVague").textContent = "Say how much, like \"10 questions\"."; return; }
+    S.study.push({id:uid(), subj, text:sText(), len:+$("#sLen").value, times:+$("#sTimes").value});
+    ["sQty","sTopic"].forEach(id=>$("#"+id).value=""); save(); drawStudy(); sPrev();
+  };
+  function drawStudy(){
+    $("#plStudyList").innerHTML = S.study.map(t=>`<div class="item"><span><span class="what">${esc(t.subj)}:</span> ${esc(t.text)}</span><span class="small muted">${t.times} × ${t.len*30} min</span><button class="btn ghost small" data-del="${t.id}">Remove</button></div>`).join("") || `<p class="small muted">No study tasks yet.</p>`;
+  }
+  $("#plStudyList").onclick = e => { const id = e.target.dataset.del; if(id){ S.study = S.study.filter(c=>c.id!==id); save(); drawStudy(); } };
+  drawStudy();
+  [["plCap","cap"],["plCapW","capW"],["plMorning","morning"]].forEach(([id,k]) => { $("#"+id).value = String(S[k]); $("#"+id).onchange = e => { S[k] = k==="morning" ? e.target.value : +e.target.value; save(); }; });
+
+  // --- Scheduler
+  function schedule(){
+    const w = toMin(S.wake), z = toMin(S.stop), N = Math.max(1,(z-w)/30);
+    const ss = toMin(S.schoolStart), se = toMin(S.schoolEnd);
+    const grid = DAYS.map(()=>Array.from({length:N},()=>null));
+    const put = (d,s0,s1,cell) => { for(let m=Math.max(s0,w); m<Math.min(s1,z); m+=30){ const i=(m-w)/30; if(!grid[d][i] || grid[d][i].t==="school") grid[d][i] = cell; } };
+    S.schoolDays.forEach(d => { put(d, ss, se, {t:"school", l:"School"}); const i=(se-w)/30; if(i>=0 && i<N && !grid[d][i]) grid[d][i] = {t:"brk", l:"Home and a snack"}; });
+    S.lessons.forEach(l => { const inS = S.schoolDays.includes(l.day) && toMin(l.start)>=ss && toMin(l.end)<=se; put(l.day, toMin(l.start), toMin(l.end), {t: inS?"school":"commit", l:l.name}); });
+    S.commits.forEach(c => c.days.forEach(d => put(d, toMin(c.start), toMin(c.end), {t:/Family|Wellbeing/.test(c.type)?"well":"commit", l:c.name})));
+    const load = DAYS.map(()=>0);
+    const cap = d => d>=5 ? S.capW : S.cap;
+    const isWork = c => c && (c.t==="todo"||c.t==="study");
+    const morningSlot = (d,i) => S.schoolDays.includes(d) && (w + i*30) < ss;
+    function place(d, n, cell, allowMorning){
+      if(load[d] + n > cap(d)) return false;
+      for(let i=0; i+n<=N; i++){
+        let ok = true;
+        for(let j=i;j<i+n;j++){ if(grid[d][j] || (!allowMorning && morningSlot(d,j))){ ok=false; break; } }
+        if(!ok) continue;
+        if(!S.schoolDays.includes(d) && (w + i*30) < 9*60) continue; // weekends: no study before 9 am
+        if(i>0 && isWork(grid[d][i-1])) continue; // keep a gap between tasks
+        for(let j=i;j<i+n;j++) grid[d][j] = Object.assign({}, cell, {first:j===i});
+        if(i+n<N && !grid[d][i+n]) grid[d][i+n] = {t:"brk", l:"Break"};
+        load[d] += n; return true;
+      }
+      return false;
+    }
+    const chunks = (len) => { const out=[]; let r=len; while(r>0){ const c=Math.min(3,r); out.push(c); r-=c; } return out; };
+    const unplaced = [];
+    const tryDays = (days, n, cell) => {
+      const order = [...days].sort((a,b)=>load[a]-load[b] || a-b);
+      for(const pass of (S.morning==="1"?[true]:[false,true])) for(const d of order) if(place(d,n,cell,pass)) return d;
+      return -1;
+    };
+    // To-dos: earliest deadline first, must finish the day before it's due
+    [...S.todos].sort((a,b)=>a.due-b.due || b.len-a.len).forEach(t => {
+      const last = t.due===7 ? 6 : Math.max(0, t.due-1);
+      const days = Array.from({length:last+1},(_,i)=>i);
+      chunks(t.len).forEach((n,k) => { if(tryDays(days, n, {t:"todo", l:`${t.subj}: ${t.task}`, kind:t.kind}) < 0) unplaced.push(`${t.subj}: ${t.task}${k?` (part ${k+1})`:""}`); });
+    });
+    // Study: spread sessions across different days
+    S.study.forEach(s => {
+      const used = new Set();
+      for(let k=0;k<s.times;k++){
+        let days = [0,1,2,3,4,5,6].filter(d=>!used.has(d));
+        const d = tryDays(days, s.len, {t:"study", l:`${s.subj}: ${s.text}`});
+        if(d<0) unplaced.push(`${s.subj}: ${s.text} (session ${k+1})`); else used.add(d);
+      }
+    });
+    return {grid, N, w, load, unplaced};
+  }
+
+  let lastText = "";
+  function render(){
+    const {grid, N, w, load, unplaced} = schedule();
+    // stats
+    const count = t => grid.flat().filter(c=>c && c.t===t && true).length;
+    const todoH = count("todo")/2, studyH = count("study")/2, wellH = count("well")/2;
+    let free = 0; grid.forEach(day => day.forEach(c => { if(!c) free++; }));
+    $("#plStats").innerHTML = [["To-do time",todoH+" h"],["Focused study",studyH+" h"],["Family & wellbeing",wellH+" h"],["Still free",free/2+" h"]].map(s=>`<div class="card"><div class="stat"><span class="small muted">${s[0]}</span><b>${s[1]}</b></div></div>`).join("");
+    const warns = [];
+    if(unplaced.length) warns.push(`<div class="note"><b>Didn't fit this week:</b><ul class="clean small">${unplaced.map(u=>`<li>${esc(u)}</li>`).join("")}</ul><p class="small">Options: raise your nightly limit in step 4, allow mornings, shorten a task, or talk to your teacher about the deadline early.</p></div>`);
+    if(wellH < 5) warns.push(`<div class="note small">You have under 5 hours of family or wellbeing time planned. Adding some protects your sleep and focus.</div>`);
+    const heavy = load.map((l,i)=>[l,i]).filter(x=>x[0]>=6).map(x=>FULL[x[1]]);
+    if(heavy.length) warns.push(`<div class="note small">Heaviest days: ${heavy.join(", ")}. Make sure you rest the day after.</div>`);
+    $("#plWarn").innerHTML = warns.join("");
+    // grid
+    let h = `<div class="h"></div>` + DAYS.map(d=>`<div class="h">${d}</div>`).join("");
+    for(let i=0;i<N;i++){
+      h += `<div class="tm">${(w+i*30)%60===0?fmt(w+i*30):""}</div>`;
+      for(let d=0; d<7; d++){
+        const c = grid[d][i], prev = i>0 ? grid[d][i-1] : null;
+        const showLabel = c && (!prev || prev.l!==c.l || c.first);
+        h += `<div class="cell ${c?c.t:""}" title="${c?esc(c.l):"Free"}">${showLabel && c.t!=="brk" ? esc(c.l) : ""}</div>`;
+      }
+    }
+    $("#plGrid").innerHTML = h;
+    // day cards
+    const lines = [];
+    $("#plDays").innerHTML = DAYS.map((d,di) => {
+      const items = []; let i=0;
+      while(i<N){ const c = grid[di][i]; if(c && (c.t==="todo"||c.t==="study")){ let j=i; while(j+1<N && grid[di][j+1] && grid[di][j+1].l===c.l && !grid[di][j+1].first) j++; items.push(`${fmt(w+i*30)}–${fmt(w+(j+1)*30)} ${c.l}`); i=j+1; } else i++; }
+      lines.push(`${FULL[di]}\n` + (items.length ? items.map(x=>"  • "+x).join("\n") : "  • Nothing planned: rest, catch up or get ahead"));
+      return `<div class="daycard"><h4>${FULL[di]}</h4>${items.length?`<ul class="clean">${items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:`<p class="small muted">No study planned. Rest, catch up or get ahead.</p>`}</div>`;
+    }).join("");
+    lastText = "My week plan\n\n" + lines.join("\n\n") + (unplaced.length ? `\n\nDidn't fit:\n${unplaced.map(u=>"  • "+u).join("\n")}` : "");
+  }
+  $("#plCopy").onclick = () => copyText(lastText, $("#plCopyMsg"));
+
+  function refreshAll(){
+    ["plSchoolStart","plSchoolEnd","plWake","plStop"].forEach((id,i)=>$("#"+id).value = S[["schoolStart","schoolEnd","wake","stop"][i]]);
+    [["plCap","cap"],["plCapW","capW"],["plMorning","morning"]].forEach(([id,k]) => $("#"+id).value = String(S[k]));
+    drawSchoolDays(); drawLessons(); drawCommits(); drawTodos(); drawStudy(); go(S.step);
+  }
+  $("#plExample").onclick = () => { S = EXAMPLE(); save(); refreshAll(); };
+  $("#plReset").onclick = () => { S = EMPTY(); save(); refreshAll(); $("#plIcsMsg").textContent = "Cleared. Start with your school hours."; };
+  go(S.step || 0);
+})();
+
+route();
+</script>
+</body></html>
